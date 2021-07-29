@@ -1,0 +1,25 @@
+{
+  "name": "exadel-events",
+  "version": "1.0.0",
+  "description": "training project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZynovII/Exadel-Events.git"
+  },
+  "keywords": [
+    "express",
+    "react",
+    "ts"
+  ],
+  "author": "ZynovII <zynov1997@mail.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZynovII/Exadel-Events/issues"
+  },
+  "homepage": "https://github.com/ZynovII/Exadel-Events#readme",
+  "workspaces": ["packages/*"]
+}
