@@ -23,7 +23,7 @@ app.use(eventRouters);
 
 const start = async () => {
   try {
-    connectToMongo();
+    await connectToMongo();
     app.listen(process.env.PORT, () => {
       log.info(`application is running on port ${process.env.PORT}.`);
     });

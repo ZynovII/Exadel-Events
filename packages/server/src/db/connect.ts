@@ -1,14 +1,16 @@
 import mongoose from 'mongoose';
 import { log } from '../logger/logger';
 
-export const connect = (): void => {
+export const connect = async (): Promise<void> => {
   const url = 'mongodb://localhost:27017/exdl-evnts-db';
   //mongo conection
-  mongoose
-    .connect(url, {
+  try {
+    await mongoose.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    })
-    .then(() => log.info('Mongooooose!!!'))
-    .catch((err) => log.error(`Smth went wrong... ${err}`));
+    });
+    log.info('Mongooooose!!!');
+  } catch (err) {
+    log.error(`Smth went wrong... ${err}`);
+  }
 };
