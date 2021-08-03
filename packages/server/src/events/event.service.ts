@@ -1,20 +1,25 @@
-import { CreateEventDto } from './dto/event.dto';
-import { EventDocument, EventModel } from './event.model';
+import { Model } from 'mongoose';
+import { CreateEventDto } from './dto/create-event.dto';
+import { EventDocument } from './event.model';
 
 export class EventService {
-  model = EventModel;
+  constructor(private readonly _model: Model<EventDocument>) {}
 
   async createEvent(data: CreateEventDto): Promise<EventDocument> {
-    const newEvent = new this.model(data);
+    const newEvent = new this._model(data);
     return await newEvent.save();
   }
 
   async getAllEvents(): Promise<EventDocument[]> {
-    return await this.model.find();
+    return await this._model.find();
   }
 
-  async deleteEvent(id: any): Promise<string> {
-    await this.model.findByIdAndRemove(id);
+  async deleteEvent(id: string): Promise<string> {
+    await this._model.findByIdAndRemove(id);
     return 'Success';
+  }
+
+  async updateEvent(id: string, payload: CreateEventDto): Promise<EventDocument> {
+    return await this._model.findByIdAndUpdate(id, payload);
   }
 }

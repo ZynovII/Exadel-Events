@@ -5,10 +5,11 @@ import cors from 'cors';
 import { connect as connectToMongo } from './db/connect';
 import { log } from './logger/logger';
 import { eventRouters } from './events/event.router';
+import { eventTypeRouter } from './event-types/event-type.router';
 
 //FIXME: remove to config file
 //TODO: find better solution for ENV variables
-dotenv.config({ path: path.join(__dirname, `../.env.${process.env.NODE_ENV}`.trim()) });
+dotenv.config({ path: path.join(__dirname, `../.env.${process.env.NODE_ENV}`) });
 
 const app = express();
 app.use(express.json());
@@ -20,6 +21,7 @@ app.use(
 app.use(cors());
 
 app.use(eventRouters);
+app.use(eventTypeRouter);
 
 const start = async () => {
   try {
