@@ -6,6 +6,8 @@ import { connect as connectToMongo } from './db/connect';
 import { log } from './logger/logger';
 import { eventRouters } from './events/event.router';
 import { eventTypeRouter } from './event-types/event-type.router';
+import { eventCategoryRouter } from './event-categories/event-category.router';
+import { languageRouter } from './languages/language.router';
 
 //FIXME: remove to config file
 //TODO: find better solution for ENV variables
@@ -22,6 +24,8 @@ app.use(cors());
 
 app.use(eventRouters);
 app.use(eventTypeRouter);
+app.use(eventCategoryRouter);
+app.use(languageRouter);
 
 const start = async () => {
   try {
