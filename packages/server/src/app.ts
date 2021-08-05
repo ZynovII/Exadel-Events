@@ -8,6 +8,8 @@ import { eventRouters } from './events/event.router';
 import { eventTypeRouter } from './event-types/event-type.router';
 import { eventCategoryRouter } from './event-categories/event-category.router';
 import { languageRouter } from './languages/language.router';
+import { applicantRouter } from './applicants/applicant.router';
+import { userRouter } from './users/user.router';
 
 //FIXME: remove to config file
 //TODO: find better solution for ENV variables
@@ -26,6 +28,8 @@ app.use(eventRouters);
 app.use(eventTypeRouter);
 app.use(eventCategoryRouter);
 app.use(languageRouter);
+app.use(applicantRouter);
+app.use(userRouter);
 
 const start = async () => {
   try {
