@@ -1,16 +1,10 @@
-import { model, Schema, Types } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { CreateFormFieldDto } from './dto/create-form-field.dto';
 
-const schemaApplicant = new Schema({
+const schemaFormField = new Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true },
-  additionalData: { type: JSON },
-  events: [
-    {
-      type: Types.ObjectId,
-      ref: 'Event',
-    },
-  ],
+  fieldType: { type: String, required: true },
+  additionalData: { type: Schema.Types.Mixed },
 });
 
-export const FormFieldModel = model<CreateFormFieldDto>('Applicant', schemaApplicant);
+export const FormFieldModel = model<CreateFormFieldDto>('Form-field', schemaFormField);

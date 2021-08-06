@@ -10,6 +10,7 @@ import { eventCategoryRouter } from './event-categories/event-category.router';
 import { languageRouter } from './languages/language.router';
 import { applicantRouter } from './applicants/applicant.router';
 import { userRouter } from './users/user.router';
+import { formFieldRouter } from './form-fields/form-field.router';
 
 //FIXME: remove to config file
 //TODO: find better solution for ENV variables
@@ -30,6 +31,7 @@ app.use(eventCategoryRouter);
 app.use(languageRouter);
 app.use(applicantRouter);
 app.use(userRouter);
+app.use(formFieldRouter);
 
 const start = async () => {
   try {

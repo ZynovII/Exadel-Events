@@ -1,15 +1,14 @@
-import { model, Schema, Types } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserRoles } from './user-role.enum';
 
 const schemaUser = new Schema({
   userName: { type: String, required: true },
   email: { type: String, required: true },
-  role: { type: String, enum: UserRoles },
-  additionalData: { type: JSON },
+  role: { type: String, required: true },
+  additionalData: Schema.Types.Mixed,
   applicants: [
     {
-      type: Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Applicants',
     },
   ],

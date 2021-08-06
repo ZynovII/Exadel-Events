@@ -7,8 +7,9 @@ export interface EventDocument {
 }
 
 const schemaEvent = new Schema({
-  title: String,
-  date: String,
+  title: { type: String, required: true },
+  date: Date,
+  additionalData: Schema.Types.Mixed,
   eventTypes: {
     type: Schema.Types.ObjectId,
     ref: 'Event-Type',
