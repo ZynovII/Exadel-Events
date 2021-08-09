@@ -4,6 +4,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Link } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const Header = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
   return (
     <>
       <CssBaseline />
@@ -34,26 +37,20 @@ export const Header = () => {
             <Link
               variant="button"
               color="inherit"
-              href="#"
+              component={RouterLink}
+              to="/"
               className={classes.link}
             >
-              Features
+              {t('events')}
             </Link>
             <Link
               variant="button"
               color="inherit"
-              href="#"
+              component={RouterLink}
+              to="/applicants"
               className={classes.link}
             >
-              Enterprise
-            </Link>
-            <Link
-              variant="button"
-              color="inherit"
-              href="#"
-              className={classes.link}
-            >
-              Support
+              {t('applicants')}
             </Link>
           </nav>
           <Button
@@ -62,7 +59,7 @@ export const Header = () => {
             variant="outlined"
             className={classes.link}
           >
-            Login
+            {t('signin')}
           </Button>
         </Toolbar>
       </AppBar>

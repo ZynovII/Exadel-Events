@@ -1,4 +1,6 @@
 {
   "signup": "SignUp",
-  "signin": "SignIn"
+  "signin": "SignIn",
+  "events": "Events",
+  "applicants": "Applicants"
 }

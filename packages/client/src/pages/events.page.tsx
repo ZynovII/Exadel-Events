@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Header } from '../components/header/header.component';
 import { EventFilter } from '../components/event-filter/event-filter.component';
 import { EventCard } from '../components/event-card/event-card.component';
-import { Footer } from '../components/footer/footer.component';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -16,16 +15,15 @@ const useStyles = makeStyles((theme) => ({
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default function Album() {
+export const Events: FC = () => {
   const classes = useStyles();
 
   return (
     <>
-      <Header />
       <main>
         <EventFilter />
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
+          <Button>Create Event</Button>
           <Grid container spacing={4}>
             {cards.map((card) => (
               <Grid item key={card} xs={12} sm={6} md={4}>
@@ -35,7 +33,6 @@ export default function Album() {
           </Grid>
         </Container>
       </main>
-      <Footer />
     </>
   );
-}
+};
