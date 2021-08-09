@@ -1,7 +1,7 @@
 import React from 'react';
+import Album from './pages/events.page';
 
 import './i18n/i18n';
-import Album from './pages/events.page';
 
 function App() {
   return (
