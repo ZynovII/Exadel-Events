@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
+import { DateTime } from 'luxon';
 
 i18n
   .use(Backend)
@@ -17,12 +18,16 @@ i18n
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
-    },
-    resources: {
-      en: {
-        translation: {
-          // here we will place our translations...
-        },
+      format: (value, format, lng = 'en') => {
+        if (value instanceof Date) {
+          return (
+            DateTime.fromJSDate(value)
+              .setLocale(lng)
+              //FIXME: figure it out - why 'format' can't be a string for DateTime
+              .toLocaleString(format && (DateTime as any)[format])
+          );
+        }
+        return value;
       },
     },
   });
