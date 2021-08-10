@@ -5,6 +5,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
+import { FC } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }));
-export const EventCard = () => {
+export const EventCard: FC<{ id: string }> = ({ id }) => {
   const classes = useStyles();
 
   return (
@@ -42,7 +44,12 @@ export const EventCard = () => {
         <Button size="small" color="primary">
           View
         </Button>
-        <Button size="small" color="primary">
+        <Button
+          component={Link}
+          to={`/event/${id}/edit`}
+          size="small"
+          color="primary"
+        >
           Edit
         </Button>
       </CardActions>

@@ -3,11 +3,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
   footer: {
+    marginTop: 'auto',
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },

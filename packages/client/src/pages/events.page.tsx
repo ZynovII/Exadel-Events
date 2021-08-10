@@ -23,11 +23,11 @@ export const Events: FC = () => {
       <main>
         <EventFilter />
         <Container className={classes.cardGrid} maxWidth="md">
-          <Button>Create Event</Button>
+          <Button color="primary">Create Event</Button>
           <Grid container spacing={4}>
             {cards.map((card) => (
               <Grid item key={card} xs={12} sm={6} md={4}>
-                <EventCard />
+                <EventCard id={card.toString()} />
               </Grid>
             ))}
           </Grid>

@@ -24,10 +24,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "dependencies": {
-    "react-router-dom": "^5.2.0"
-  },
-  "devDependencies": {
-    "@types/react-router-dom": "^5.1.8"
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }
