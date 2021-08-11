@@ -16,12 +16,8 @@ import {
   ListItemIcon,
 } from '@material-ui/core';
 import { AddCircleOutline } from '@material-ui/icons';
-import { DatePicker } from '@material-ui/pickers';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import { DateTime } from 'luxon';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link as RouterLink, Route, useHistory } from 'react-router-dom';
+import { Link as RouterLink, Route } from 'react-router-dom';
 
 import { MyBreadcrumbs } from '../components/breadcrumbs/breadcrumbs.coponent';
 import { EventEditField } from '../components/event-edit-field/event-edit-field.component';
@@ -63,9 +59,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const EventEdit: React.FC = () => {
-  const [date, setDate] = useState<MaterialUiPickersDate>(DateTime.now());
   const { t } = useTranslation();
-  const history = useHistory();
   const classes = useStyles();
   const fields = [
     { label: t('form_fields.title'), num: 1 },
@@ -73,7 +67,6 @@ export const EventEdit: React.FC = () => {
     { num: 3, label: t('form_fields.date') },
     { num: 4, label: t('form_fields.description') },
   ];
-  console.log(history.location);
 
   return (
     <main className={classes.layout}>
@@ -99,28 +92,22 @@ export const EventEdit: React.FC = () => {
           <Grid container spacing={2}>
             <Grid item xs={8}>
               <Paper className={classes.root}>
-                <Typography>{t('form_fields.basic_title')}</Typography>
                 <form>
+                  <Typography>{t('form_fields.basic_title')}</Typography>
                   {fields.map(({ num, label }) => (
                     <EventEditField key={num} label={label} />
                   ))}
-                  <DatePicker
-                    variant="inline"
-                    label={t('form_fields.date')}
-                    value={date}
-                    onChange={setDate}
-                  />
+                  <div className={classes.buttons}>
+                    <Button variant="contained" className={classes.button}>
+                      Save
+                    </Button>
+                    <Button variant="contained">To draft</Button>
+                    <Button variant="contained" color="secondary">
+                      Cancel
+                    </Button>
+                  </div>
                 </form>
               </Paper>
-              <div className={classes.buttons}>
-                <Button variant="contained" className={classes.button}>
-                  Save
-                </Button>
-                <Button variant="contained">To draft</Button>
-                <Button variant="contained" color="secondary">
-                  Cancel
-                </Button>
-              </div>
             </Grid>
             <Grid item xs={4}>
               <List className={classes.root}>
@@ -142,6 +129,7 @@ export const EventEdit: React.FC = () => {
                     </ListItem>
                   );
                 })}
+                <Button variant="outlined">Add field</Button>
               </List>
             </Grid>
           </Grid>
@@ -150,28 +138,22 @@ export const EventEdit: React.FC = () => {
           <Grid container spacing={2}>
             <Grid item xs={8}>
               <Paper className={classes.root}>
-                <Typography>{t('form_fields.basic_title')}</Typography>
                 <form>
+                  <Typography>{t('form_fields.basic_title')}</Typography>
                   {fields.map(({ num, label }) => (
                     <EventEditField key={num} label={label} />
                   ))}
-                  <DatePicker
-                    variant="inline"
-                    label={t('form_fields.date')}
-                    value={date}
-                    onChange={setDate}
-                  />
+                  <div className={classes.buttons}>
+                    <Button variant="contained" className={classes.button}>
+                      Save
+                    </Button>
+                    <Button variant="contained">To draft</Button>
+                    <Button variant="contained" color="secondary">
+                      Cancel
+                    </Button>
+                  </div>
                 </form>
               </Paper>
-              <div className={classes.buttons}>
-                <Button variant="contained" className={classes.button}>
-                  Save
-                </Button>
-                <Button variant="contained">To draft</Button>
-                <Button variant="contained" color="secondary">
-                  Cancel
-                </Button>
-              </div>
             </Grid>
             <Grid item xs={4}>
               <List className={classes.root}>
