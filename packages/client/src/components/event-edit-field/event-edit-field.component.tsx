@@ -1,15 +1,32 @@
-import { Card, TextField } from '@material-ui/core';
+import { Button, Card, makeStyles, TextField } from '@material-ui/core';
 import { Edit, HighlightOff } from '@material-ui/icons';
 import React from 'react';
 
+const useStayles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '5px',
+    padding: '5px',
+    backgroundColor: '#dff5e9',
+  },
+  input: {
+    flex: '.9 0 0',
+  },
+}));
+
 export const EventEditField: React.FC<{ label: string }> = ({ label }) => {
+  const classes = useStayles();
   return (
-    <div>
-      <Card>
-        <TextField label={label} />
-        <HighlightOff />
+    <Card className={classes.root}>
+      <TextField label={label} className={classes.input} />
+      <Button>
         <Edit />
-      </Card>
-    </div>
+      </Button>
+      <Button color="secondary">
+        <HighlightOff />
+      </Button>
+    </Card>
   );
 };

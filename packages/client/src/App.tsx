@@ -7,7 +7,7 @@ import LuxonUtil from '@date-io/luxon';
 
 import { Footer } from './components/footer/footer.component';
 import { Header } from './components/header/header.component';
-import { Router } from './routes';
+import { Router } from './router/routes';
 
 import './i18n/i18n';
 
