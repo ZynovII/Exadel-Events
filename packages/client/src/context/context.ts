@@ -1,5 +1,13 @@
 import { createContext } from 'react';
+import { IContext, IStore } from '../types/store';
 
-export let initialState: void;
+export const initialState: IStore = {
+  events: [],
+  applicants: [],
+  isAuth: false,
+};
 
-export const Context = createContext({});
+export const Context = createContext<IContext>({
+  state: initialState,
+  dispatch: () => {},
+});

@@ -8,16 +8,32 @@ import LuxonUtil from '@date-io/luxon';
 import { Footer } from './components/footer/footer.component';
 import { Header } from './components/header/header.component';
 import { Router } from './router/routes';
+import { Store } from './context/store.component';
 
 import './i18n/i18n';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
   },
-});
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up(1300 + theme.spacing(2) * 2)]: {
+      width: 1280,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  footer: {
+    marginTop: 'auto',
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+}));
 
 function App() {
   const classes = useStyles();
@@ -26,10 +42,18 @@ function App() {
     <div className={classes.root}>
       <MuiPickersUtilsProvider utils={LuxonUtil}>
         <BrowserRouter>
-          <CssBaseline />
-          <Header />
-          <Router />
-          <Footer />
+          <Store>
+            <CssBaseline />
+            <header>
+              <Header />
+            </header>
+            <main className={classes.layout}>
+              <Router />
+            </main>
+            <footer className={classes.footer}>
+              <Footer />
+            </footer>
+          </Store>
         </BrowserRouter>
       </MuiPickersUtilsProvider>
     </div>

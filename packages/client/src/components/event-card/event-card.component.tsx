@@ -41,12 +41,17 @@ export const EventCard: FC<{ id: string }> = ({ id }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button
+          component={Link}
+          to={`/event/${id}`}
+          size="small"
+          color="primary"
+        >
           View
         </Button>
         <Button
           component={Link}
-          to={`/event/${id}/edit`}
+          to={`/event/${id}/edit/event-form`}
           size="small"
           color="primary"
         >

@@ -16,11 +16,16 @@ const useStayles = makeStyles((theme) => ({
   },
 }));
 
-export const EventEditField: React.FC<{ label: string }> = ({ label }) => {
+export const EventEditField: React.FC<any> = (props) => {
   const classes = useStayles();
   return (
     <Card className={classes.root}>
-      <TextField label={label} className={classes.input} />
+      <TextField
+        label={props.label}
+        id="name"
+        {...props}
+        className={classes.input}
+      />
       <Button>
         <Edit />
       </Button>

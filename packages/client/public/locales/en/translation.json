@@ -4,7 +4,10 @@
     "signin": "SignIn",
     "events": "Events",
     "applicants": "Applicants",
-    "event_edit": "Event editting"
+    "event_edit": "Event editting",
+    "edit": "Edit",
+    "registration_form": "Registration form",
+    "event_form": "Event"
   },
   "form_fields": {
     "basic_title": "New Event",
@@ -12,5 +15,13 @@
     "type": "Type",
     "date": "Date",
     "description": "Description"
+  },
+  "form_actions": {
+    "add_field": "Add field",
+    "submit": "Submit",
+    "save": "Save",
+    "publish": "Publish",
+    "to_draft": "To Draft",
+    "cancel": "Cancel"
   }
 }

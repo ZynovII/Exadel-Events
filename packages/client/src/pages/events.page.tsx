@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
+  button: {
+    marginBottom: '10px',
+  },
 }));
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -20,19 +23,19 @@ export const Events: FC = () => {
 
   return (
     <>
-      <main>
-        <EventFilter />
-        <Container className={classes.cardGrid} maxWidth="md">
-          <Button color="primary">Create Event</Button>
-          <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <EventCard id={card.toString()} />
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </main>
+      <EventFilter />
+      <Container className={classes.cardGrid}>
+        <Button color="primary" className={classes.button}>
+          Create Event
+        </Button>
+        <Grid container spacing={4}>
+          {cards.map((card) => (
+            <Grid item key={card} xs={12} sm={6} md={4}>
+              <EventCard id={card.toString()} />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
     </>
   );
 };

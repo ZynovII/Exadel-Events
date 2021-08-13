@@ -4,6 +4,7 @@ import { Applicants } from '../pages/applicants.page';
 import { Events } from '../pages/events.page';
 import { EventEdit } from '../pages/event-edit.page';
 import React from 'react';
+import { EventInfo } from '../pages/event-info.page';
 
 interface IRoute {
   path: string;
@@ -13,6 +14,7 @@ interface IRoute {
 
 export const routes: IRoute[] = [
   { path: '/', Component: Events, exact: true },
+  { path: '/event/:id', Component: EventInfo, exact: true },
   { path: '/applicants', Component: Applicants, exact: false },
   { path: '/event/:id/edit', Component: EventEdit, exact: false },
 ];
