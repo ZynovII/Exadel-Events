@@ -1,4 +1,8 @@
 import { Model } from 'mongoose';
+import { CustomError } from '../error-handler/CustomError';
+import { NotFoundError } from '../error-handler/NotFoundError';
+import { log } from '../logger/logger';
+import { DELETED } from '../utils/constants';
 import { CreateFormFieldDto } from './dto/create-form-field.dto';
 
 export class FormFieldService {
@@ -14,18 +18,38 @@ export class FormFieldService {
   }
 
   async getFormFieldById(id: string): Promise<CreateFormFieldDto> {
-    return this._model.findOne({ id });
+    try {
+      const result = await this._model.findOne({ id });
+      if (result === null) {
+        throw new NotFoundError('Form field');
+      }
+      return result;
+    } catch (err) {
+      log.info(err);
+      throw new CustomError();
+    }
   }
 
   async deleteFormField(id: string): Promise<string> {
-    let response = 'Success';
-    await this._model.remove({ id }, (err) => {
-      response = err.message;
-    });
-    return response;
+    try {
+      await this._model.remove(await this.getFormFieldById(id));
+      return DELETED;
+    } catch (err) {
+      log.info(err);
+      throw new CustomError();
+    }
   }
 
   async updateFormField(id: string, payload: CreateFormFieldDto): Promise<CreateFormFieldDto> {
-    return this._model.findByIdAndUpdate(id, payload);
+    try {
+      const result = await this._model.findByIdAndUpdate(id, payload);
+      if (result === null) {
+        throw new NotFoundError('Form field');
+      }
+      return result;
+    } catch (err) {
+      log.info(err);
+      throw new CustomError();
+    }
   }
 }

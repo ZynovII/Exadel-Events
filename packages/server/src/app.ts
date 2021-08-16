@@ -11,6 +11,7 @@ import { languageRouter } from './languages/language.router';
 import { applicantRouter } from './applicants/applicant.router';
 import { userRouter } from './users/user.router';
 import { formFieldRouter } from './form-fields/form-field.router';
+import { errorMiddleware } from './middleware/error.middleware';
 
 //FIXME: remove to config file
 //TODO: find better solution for ENV variables
@@ -24,6 +25,8 @@ app.use(
   }),
 );
 app.use(cors());
+
+app.use(errorMiddleware);
 
 app.use(eventRouters);
 app.use(eventTypeRouter);

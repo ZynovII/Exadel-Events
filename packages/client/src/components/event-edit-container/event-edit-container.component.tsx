@@ -9,6 +9,7 @@ import { DatePicker } from '@material-ui/pickers';
 import { useFormik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { EventService } from '../../http/API/event.service';
 
 import { ICreateEvent } from '../../types/event';
 import { EventEditField } from '../event-edit-field/event-edit-field.component';
@@ -57,6 +58,7 @@ export const EventEditContainer: React.FC = () => {
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
+      EventService.getAllEvents().then((data) => console.log(data.data));
     },
   });
   const fields = [

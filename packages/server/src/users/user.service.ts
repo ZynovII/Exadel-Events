@@ -1,4 +1,8 @@
 import { Model } from 'mongoose';
+import { CustomError } from '../error-handler/CustomError';
+import { NotFoundError } from '../error-handler/NotFoundError';
+import { log } from '../logger/logger';
+import { DELETED } from '../utils/constants';
 import { CreateUserDto } from './dto/create-user.dto';
 
 export class UserService {
@@ -14,18 +18,38 @@ export class UserService {
   }
 
   async getUserById(id: string): Promise<CreateUserDto> {
-    return this._model.findOne({ id });
+    try {
+      const result = await this._model.findOne({ id });
+      if (result === null) {
+        throw new NotFoundError('User');
+      }
+      return result;
+    } catch (err) {
+      log.info(err);
+      throw new CustomError();
+    }
   }
 
   async deleteUser(id: string): Promise<string> {
-    let response = 'Success';
-    await this._model.remove({ id }, (err) => {
-      response = err.message;
-    });
-    return response;
+    try {
+      await this._model.remove(await this.getUserById(id));
+      return DELETED;
+    } catch (err) {
+      log.info(err);
+      throw new CustomError();
+    }
   }
 
   async updateUser(id: string, payload: CreateUserDto): Promise<CreateUserDto> {
-    return this._model.findByIdAndUpdate(id, payload);
+    try {
+      const result = await this._model.findByIdAndUpdate(id, payload);
+      if (result === null) {
+        throw new NotFoundError('User');
+      }
+      return result;
+    } catch (err) {
+      log.info(err);
+      throw new CustomError();
+    }
   }
 }

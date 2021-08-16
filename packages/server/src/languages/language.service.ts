@@ -1,5 +1,9 @@
 import { Model } from 'mongoose';
+import { log } from '../logger/logger';
 import { CreateLanguageDto } from './language.dto';
+import { NotFoundError } from '../error-handler/NotFoundError';
+import { CustomError } from '../error-handler/CustomError';
+import { DELETED } from '../utils/constants';
 
 export class LanguageService {
   constructor(private readonly _model: Model<CreateLanguageDto>) {}
@@ -14,14 +18,25 @@ export class LanguageService {
   }
 
   async getLanguageByName(name: string): Promise<CreateLanguageDto> {
-    return this._model.findOne({ name });
+    try {
+      const result = await this._model.findOne({ name });
+      if (result === null) {
+        throw new NotFoundError('Language');
+      }
+      return result;
+    } catch (err) {
+      log.info(err);
+      throw new CustomError();
+    }
   }
 
   async deleteLanguage(name: string): Promise<string> {
-    let response = 'Success';
-    await this._model.remove({ name }, (err) => {
-      response = err.message;
-    });
-    return response;
+    try {
+      await this._model.remove(await this.getLanguageByName(name));
+      return DELETED;
+    } catch (err) {
+      log.info(err);
+      throw new CustomError();
+    }
   }
 }

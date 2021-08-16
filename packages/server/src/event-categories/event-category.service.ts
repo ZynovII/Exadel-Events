@@ -1,4 +1,6 @@
 import { Model } from 'mongoose';
+import { CustomError } from '../error-handler/CustomError';
+import { NotFoundError } from '../error-handler/NotFoundError';
 import { CreateEventCategoryDto } from './event-category.dto';
 
 export class EventCategoryService {
@@ -14,14 +16,23 @@ export class EventCategoryService {
   }
 
   async getEventCategoryByName(name: string): Promise<CreateEventCategoryDto> {
-    return this._model.findOne({ name });
+    try {
+      const result = await this._model.findOne({ name });
+      if (result) {
+        return result;
+      } else {
+        throw new NotFoundError('Event category');
+      }
+    } catch (err) {
+      throw new CustomError();
+    }
   }
 
   async deleteEventCategory(name: string): Promise<string> {
-    let response = 'Success';
-    await this._model.remove({ name }, (err) => {
-      response = err.message;
-    });
-    return response;
+    try {
+      return await this._model.remove(await this.getEventCategoryByName(name));
+    } catch (err) {
+      throw new CustomError();
+    }
   }
 }

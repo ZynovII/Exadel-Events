@@ -1,6 +1,8 @@
 import { Model } from 'mongoose';
+import { CustomError } from '../error-handler/CustomError';
+import { NotFoundError } from '../error-handler/NotFoundError';
 import { CreateEventDto } from './dto/create-event.dto';
-import { EventDocument } from './event.model';
+import { EventDocument, EventModel } from './event.model';
 
 export class EventService {
   constructor(private readonly _model: Model<EventDocument>) {}
@@ -14,12 +16,41 @@ export class EventService {
     return await this._model.find();
   }
 
+  async getEventById(id: string): Promise<EventDocument> {
+    try {
+      const result = await this._model.findById(id);
+      if (result) {
+        return result;
+      } else {
+        throw new NotFoundError('Event');
+      }
+    } catch (err) {
+      throw new CustomError();
+    }
+  }
+
   async deleteEvent(id: string): Promise<string> {
-    await this._model.findByIdAndRemove(id);
-    return 'Success';
+    try {
+      const result = await this.getEventById(id);
+      await this._model.findOneAndRemove(result);
+      return 'Successfully deleted';
+    } catch (err) {
+      throw new CustomError();
+    }
   }
 
   async updateEvent(id: string, payload: CreateEventDto): Promise<EventDocument> {
-    return await this._model.findByIdAndUpdate(id, payload);
+    try {
+      const result = await this._model.findByIdAndUpdate(id, payload);
+      if (result) {
+        return result;
+      } else {
+        throw new NotFoundError('Event');
+      }
+    } catch (err) {
+      throw new CustomError();
+    }
   }
 }
+
+export default new EventService(EventModel);

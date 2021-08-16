@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { EventService } from './event.service';
+import eventService, { EventService } from './event.service';
+
 export class EventController {
   constructor(private readonly _service: EventService) {}
 
@@ -11,7 +12,7 @@ export class EventController {
 
   getEvents = async (req: Request, res: Response): Promise<Response> => {
     const events = await this._service.getAllEvents();
-    return res.send(events);
+    return res.send({ events, msg: 'allo' });
   };
 
   deleteEvent = async (req: Request, res: Response): Promise<Response> => {
@@ -24,3 +25,5 @@ export class EventController {
     return res.send(events);
   };
 }
+
+export default new EventController(eventService);
