@@ -11,7 +11,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { EventService } from '../../http/API/event.service';
 
-import { ICreateEvent } from '../../types/event';
+import { ICreateEvent } from '../../../../common types/dto/event/event';
 import { EventEditField } from '../event-edit-field/event-edit-field.component';
 
 const useStyles = makeStyles((theme) => ({

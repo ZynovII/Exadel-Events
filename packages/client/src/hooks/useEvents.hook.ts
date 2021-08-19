@@ -1,4 +1,4 @@
-import { CreateEventDto } from '../http/dto/event/create-event.dto';
+import { CreateEventDto } from '../../../common types/dto/event/create-event.dto';
 import { useStore } from './useStore.hook';
 
 export const useEvents = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActionTypes } from '../context/action.types';
-import { IApplicant } from './applicant';
-import { IEvent } from './event';
+import { IApplicant } from '../../../common types/dto/applicant/applicant';
+import { IEvent } from '../../../common types/dto/event/event';
 
 export interface IStore {
   events: IEvent[];

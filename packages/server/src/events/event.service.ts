@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { CustomError } from '../error-handler/CustomError';
 import { NotFoundError } from '../error-handler/NotFoundError';
-import { CreateEventDto } from './dto/create-event.dto';
+import { CreateEventDto } from '../../../common types/dto/event/create-event.dto';
 import { EventDocument, EventModel } from './event.model';
 
 export class EventService {

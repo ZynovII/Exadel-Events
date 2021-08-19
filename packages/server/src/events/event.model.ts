@@ -1,10 +1,7 @@
 import { Schema, model } from 'mongoose';
+import { Event } from '../../../common types/dto/event/event';
 
-export interface EventDocument {
-  title: string;
-  description: string;
-  date: string;
-}
+export type EventDocument = Event;
 
 const schemaEvent = new Schema({
   title: { type: String, required: true },
