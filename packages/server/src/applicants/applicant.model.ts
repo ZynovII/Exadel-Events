@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { CreateApplicantDto } from './dto/create-applicant.dto';
+import { Applicant } from '../../../common types/dto/applicant/applicant.type';
 
 const schemaApplicant = new Schema({
   name: { type: String, required: true },
@@ -13,4 +13,4 @@ const schemaApplicant = new Schema({
   ],
 });
 
-export const ApplicantModel = model<CreateApplicantDto>('Applicant', schemaApplicant);
+export const ApplicantModel = model<Applicant>('Applicant', schemaApplicant);

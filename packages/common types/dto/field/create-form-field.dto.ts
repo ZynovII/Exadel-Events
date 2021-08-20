@@ -1,4 +1,4 @@
-import { FormFieldType } from '../form-field-type.enum';
+import { FormFieldType } from './form-field-type.enum';
 
 export interface CreateFormFieldDto {
   name: string;

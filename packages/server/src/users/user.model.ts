@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
+import { User } from '../../../common types/dto/user/user.type';
 
 const schemaUser = new Schema({
   userName: { type: String, required: true },
@@ -14,4 +14,4 @@ const schemaUser = new Schema({
   ],
 });
 
-export const UserModel = model<CreateUserDto>('User', schemaUser);
+export const UserModel = model<User>('User', schemaUser);

@@ -1,10 +1,7 @@
 import { model, Schema } from 'mongoose';
-import { CreateEventCategoryDto } from './event-category.dto';
+import { EventCategory } from '../../../common types/dto/event-category/event-category.type';
 
 const schemaEventCategory = new Schema({
   name: { type: String, required: true },
 });
-export const EventCategoryModel = model<CreateEventCategoryDto>(
-  'Event-Category',
-  schemaEventCategory,
-);
+export const EventCategoryModel = model<EventCategory>('Event-Category', schemaEventCategory);

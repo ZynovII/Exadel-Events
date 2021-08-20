@@ -1,5 +1,7 @@
 export interface CreateApplicantDto {
-  userName: string;
+  firstName: string;
+  lastName: string;
   email: string;
+  event: string;
   additionalData: JSON;
 }

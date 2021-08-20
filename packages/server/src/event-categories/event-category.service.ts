@@ -1,21 +1,22 @@
 import { Model } from 'mongoose';
 import { CustomError } from '../error-handler/CustomError';
 import { NotFoundError } from '../error-handler/NotFoundError';
-import { CreateEventCategoryDto } from './event-category.dto';
+import { CreateEventCategoryDto } from '../../../common types/dto/event-category/event-category.dto';
+import { EventCategory } from '../../../common types/dto/event-category/event-category.type';
 
 export class EventCategoryService {
-  constructor(private readonly _model: Model<CreateEventCategoryDto>) {}
+  constructor(private readonly _model: Model<EventCategory>) {}
 
-  async createEventCategory(data: CreateEventCategoryDto): Promise<CreateEventCategoryDto> {
+  async createEventCategory(data: CreateEventCategoryDto): Promise<EventCategory> {
     const newEventCategory = new this._model(data);
     return newEventCategory.save();
   }
 
-  async getAllEventCategories(): Promise<CreateEventCategoryDto[]> {
+  async getAllEventCategories(): Promise<EventCategory[]> {
     return this._model.find();
   }
 
-  async getEventCategoryByName(name: string): Promise<CreateEventCategoryDto> {
+  async getEventCategoryByName(name: string): Promise<EventCategory> {
     try {
       const result = await this._model.findOne({ name });
       if (result) {

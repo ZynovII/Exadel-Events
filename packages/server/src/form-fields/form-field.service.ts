@@ -3,21 +3,22 @@ import { CustomError } from '../error-handler/CustomError';
 import { NotFoundError } from '../error-handler/NotFoundError';
 import { log } from '../logger/logger';
 import { DELETED } from '../utils/constants';
-import { CreateFormFieldDto } from './dto/create-form-field.dto';
+import { CreateFormFieldDto } from '../../../common types/dto/field/create-form-field.dto';
+import { Field } from '../../../common types/dto/field/field.type';
 
 export class FormFieldService {
-  constructor(private readonly _model: Model<CreateFormFieldDto>) {}
+  constructor(private readonly _model: Model<Field>) {}
 
-  async createFormField(data: CreateFormFieldDto): Promise<CreateFormFieldDto> {
+  async createFormField(data: CreateFormFieldDto): Promise<Field> {
     const newFormField = new this._model(data);
     return newFormField.save();
   }
 
-  async getAllFormFields(): Promise<CreateFormFieldDto[]> {
+  async getAllFormFields(): Promise<Field[]> {
     return this._model.find();
   }
 
-  async getFormFieldById(id: string): Promise<CreateFormFieldDto> {
+  async getFormFieldById(id: string): Promise<Field> {
     try {
       const result = await this._model.findOne({ id });
       if (result === null) {
@@ -40,7 +41,7 @@ export class FormFieldService {
     }
   }
 
-  async updateFormField(id: string, payload: CreateFormFieldDto): Promise<CreateFormFieldDto> {
+  async updateFormField(id: string, payload: CreateFormFieldDto): Promise<Field> {
     try {
       const result = await this._model.findByIdAndUpdate(id, payload);
       if (result === null) {

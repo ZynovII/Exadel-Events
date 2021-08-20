@@ -1,11 +1,10 @@
-import { Schema } from 'mongoose';
-import { Field } from '../field/field';
+import { Field } from '../field/field.type';
 
 export type Event = {
-  _id: Schema.Types.ObjectId;
+  _id: string;
   title: string;
   description: string;
-  startDate: Schema.Types.Date;
+  startDate: string;
   additionalData?: any;
   eventFields?: Field[];
   registrationFields?: Field[];

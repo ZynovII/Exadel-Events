@@ -1,23 +1,24 @@
 import { Model } from 'mongoose';
+import { Applicant } from '../../../common types/dto/applicant/applicant.type';
 import { CustomError } from '../error-handler/CustomError';
 import { NotFoundError } from '../error-handler/NotFoundError';
 import { log } from '../logger/logger';
 import { DELETED } from '../utils/constants';
-import { CreateApplicantDto } from './dto/create-applicant.dto';
+import { CreateApplicantDto } from '../../../common types/dto/applicant/create-applicant.dto';
 
 export class ApplicantService {
-  constructor(private readonly _model: Model<CreateApplicantDto>) {}
+  constructor(private readonly _model: Model<Applicant>) {}
 
-  async createApplicant(data: CreateApplicantDto): Promise<CreateApplicantDto> {
+  async createApplicant(data: CreateApplicantDto): Promise<Applicant> {
     const newApplicant = new this._model(data);
     return newApplicant.save();
   }
 
-  async getAllApplicants(): Promise<CreateApplicantDto[]> {
+  async getAllApplicants(): Promise<Applicant[]> {
     return this._model.find();
   }
 
-  async getApplicantById(id: string): Promise<CreateApplicantDto> {
+  async getApplicantById(id: string): Promise<Applicant> {
     try {
       const result = await this._model.findOne({ id });
       if (result === null) {
@@ -40,7 +41,7 @@ export class ApplicantService {
     }
   }
 
-  async updateApplicant(id: string, payload: CreateApplicantDto): Promise<CreateApplicantDto> {
+  async updateApplicant(id: string, payload: CreateApplicantDto): Promise<Applicant> {
     try {
       const result = await this._model.findByIdAndUpdate(id, payload);
       if (result === null) {

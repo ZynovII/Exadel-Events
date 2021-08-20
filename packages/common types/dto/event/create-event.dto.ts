@@ -1,5 +1,5 @@
 import { Field } from '../field/field';
-import { Event } from './event';
+import { Event } from './event.type';
 import { EventStatus } from './event-status.enum';
 
 export interface CreateEventDto {

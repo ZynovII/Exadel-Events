@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { Event } from '../../../common types/dto/event/event';
+import { Event } from '../../../common types/dto/event/event.type';
 
 export type EventDocument = Event;
 
