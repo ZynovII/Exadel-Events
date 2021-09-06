@@ -30,4 +30,5 @@ const schemaEvent = new Schema({
     },
   ],
 });
+schemaEvent.index({ '$**': 'text' });
 export const EventModel = model<EventDocument>('Event', schemaEvent);

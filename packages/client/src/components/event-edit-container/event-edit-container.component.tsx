@@ -11,7 +11,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { EventService } from '../../http/API/event.service';
 
-import { ICreateEvent } from '../../../../common types/dto/event/event';
+import { CreateEventDto } from '../../../../common types/dto/event/create-event.dto';
 import { EventEditField } from '../event-edit-field/event-edit-field.component';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,16 +49,18 @@ const useStyles = makeStyles((theme) => ({
 export const EventEditContainer: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const formik = useFormik<ICreateEvent>({
+  const formik = useFormik<CreateEventDto>({
     initialValues: {
       title: '',
       description: '',
       startDate: '',
-      eventType: 'MeetUp',
+      additionalData: {},
+      eventFields: [],
+      registrationFields: [],
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
-      EventService.getAllEvents().then((data) => console.log(data.data));
+      EventService.getAllEvents().then((data) => console.log(data?.data));
     },
   });
   const fields = [
@@ -120,15 +122,6 @@ export const EventEditContainer: React.FC = () => {
             }}
             error={formik.touched.startDate && Boolean(formik.errors.startDate)}
             helperText={formik.touched.startDate && formik.errors.startDate}
-          />
-          <TextField
-            id="eventType"
-            name="eventType"
-            label="Event Type"
-            value={formik.values.eventType}
-            onChange={formik.handleChange}
-            error={formik.touched.eventType && Boolean(formik.errors.eventType)}
-            helperText={formik.touched.eventType && formik.errors.eventType}
           />
         </div>
         <div className={classes.buttons}>

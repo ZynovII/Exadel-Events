@@ -1,4 +1,4 @@
-import { Field } from '../field/field';
+import { Field } from '../field/field.type';
 import { Event } from './event.type';
 import { EventStatus } from './event-status.enum';
 

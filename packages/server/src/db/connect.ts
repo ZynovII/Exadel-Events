@@ -7,6 +7,7 @@ export const connect = async (): Promise<void> => {
   try {
     await mongoose.connect(url, {
       useNewUrlParser: true,
+      useCreateIndex: true,
       useUnifiedTopology: true,
     });
     log.info('Mongooooose!!!');

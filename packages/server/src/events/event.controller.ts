@@ -11,8 +11,9 @@ export class EventController {
   };
 
   getEvents = async (req: Request, res: Response): Promise<Response> => {
-    const events = await this._service.getAllEvents();
-    return res.send({ events, msg: 'allo' });
+    const params = req.query;
+    const events = await this._service.getAllEvents(params);
+    return res.send(events);
   };
 
   deleteEvent = async (req: Request, res: Response): Promise<Response> => {
