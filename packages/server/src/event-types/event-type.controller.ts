@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { EventTypeService } from './event-type.service';
+import eventTypeService, { EventTypeService } from './event-type.service';
 
 export class EventTypeController {
   constructor(private readonly _service: EventTypeService) {}
@@ -25,3 +25,5 @@ export class EventTypeController {
     return res.send(result);
   };
 }
+
+export default new EventTypeController(eventTypeService);

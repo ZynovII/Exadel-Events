@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { LanguageService } from './language.service';
-
+import languageService, { LanguageService } from './language.service';
 export class LanguageController {
   constructor(private readonly _service: LanguageService) {}
 
@@ -25,3 +24,5 @@ export class LanguageController {
     return res.send(result);
   };
 }
+
+export default new LanguageController(languageService);

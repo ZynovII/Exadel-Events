@@ -1,10 +1,12 @@
 import { Model } from 'mongoose';
+
 import { log } from '../logger/logger';
-import { CreateLanguageDto } from '../../../common types/dto/language/language.dto';
+import { DELETED } from '../utils/constants';
+import { LanguageModel } from './language.model';
 import { NotFoundError } from '../error-handler/NotFoundError';
 import { CustomError } from '../error-handler/CustomError';
-import { DELETED } from '../utils/constants';
 import { Language } from '../../../common types/dto/language/language.type';
+import { CreateLanguageDto } from '../../../common types/dto/language/language.dto';
 
 export class LanguageService {
   constructor(private readonly _model: Model<Language>) {}
@@ -41,3 +43,5 @@ export class LanguageService {
     }
   }
 }
+
+export default new LanguageService(LanguageModel);

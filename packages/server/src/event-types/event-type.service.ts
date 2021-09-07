@@ -1,7 +1,9 @@
 import { Model } from 'mongoose';
+
+import { EventTypeModel } from './event-type.model';
 import { CustomError } from '../error-handler/CustomError';
 import { NotFoundError } from '../error-handler/NotFoundError';
-import { CreateEventTypeDto } from '../../../common types/dto/event-type/event-type.dto';
+import { CreateEventTypeDto } from '../../../common types/dto/event-type/create-event-type.dto';
 import { EventType } from '../../../common types/dto/event-type/event-type.type';
 
 export class EventTypeService {
@@ -39,3 +41,5 @@ export class EventTypeService {
     }
   }
 }
+
+export default new EventTypeService(EventTypeModel);

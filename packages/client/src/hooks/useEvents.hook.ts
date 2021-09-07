@@ -19,11 +19,12 @@ export const useEvents = () => {
   };
 
   const fetchOptions = async () => {
-    return await axios.get(`${API_URL}/`);
+    return await axios.get(`${API_URL}/filter-options`);
   };
 
   return {
     createEvent,
     fetchEvents,
+    fetchOptions,
   };
 };

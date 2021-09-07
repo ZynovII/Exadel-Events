@@ -1,11 +1,7 @@
 import { Router } from 'express';
-import { FormFieldController } from './form-field.controller';
-import { FormFieldService } from './form-field.service';
-import { FormFieldModel } from './form-field.model';
+import formFieldController from './form-field.controller';
 
 export const formFieldRouter = Router();
-
-const formFieldController = new FormFieldController(new FormFieldService(FormFieldModel));
 
 formFieldRouter.get('/formField', formFieldController.getAllFormFields);
 formFieldRouter.get('/formField/:id', formFieldController.getFormFieldById);

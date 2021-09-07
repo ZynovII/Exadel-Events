@@ -1,4 +1,6 @@
 import { Model } from 'mongoose';
+
+import { EventCategoryModel } from './event-category.model';
 import { CustomError } from '../error-handler/CustomError';
 import { NotFoundError } from '../error-handler/NotFoundError';
 import { CreateEventCategoryDto } from '../../../common types/dto/event-category/event-category.dto';
@@ -37,3 +39,5 @@ export class EventCategoryService {
     }
   }
 }
+
+export default new EventCategoryService(EventCategoryModel);

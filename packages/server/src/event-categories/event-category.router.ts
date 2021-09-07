@@ -1,13 +1,7 @@
 import { Router } from 'express';
-import { EventCategoryController } from './event-category.controller';
-import { EventCategoryModel } from './event-category.model';
-import { EventCategoryService } from './event-category.service';
+import eventCategoryController from './event-category.controller';
 
 export const eventCategoryRouter = Router();
-
-const eventCategoryController = new EventCategoryController(
-  new EventCategoryService(EventCategoryModel),
-);
 
 eventCategoryRouter.get('/event-type', eventCategoryController.getAllEventCategories);
 

@@ -1,11 +1,7 @@
 import { Router } from 'express';
-import { EventTypeController } from './event-type.controller';
-import { EventTypeModel } from './event-type.model';
-import { EventTypeService } from './event-type.service';
+import eventTypeController from './event-type.controller';
 
 export const eventTypeRouter = Router();
-
-const eventTypeController = new EventTypeController(new EventTypeService(EventTypeModel));
 
 eventTypeRouter.get('/event-type', eventTypeController.getAllEventTypes);
 

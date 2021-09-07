@@ -7,10 +7,9 @@ import { generateQueryString } from '../../utils/generate-query-string';
 
 export class EventService {
   static async getAllEvents(params?: FilterEventDto) {
+    const query = params ? '?' + generateQueryString(params) : '';
     try {
-      return await axios.get(
-        `${API_URL}/events${params && '?' + generateQueryString(params)}`
-      );
+      return await axios.get(`${API_URL}/events${query}`);
     } catch (err) {
       throw new HTTPError(err.message, err.status);
     }

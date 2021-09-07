@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8080';
+const API_URL = 'http://localhost:8080/api';
 const DEFAULT_PAGE = 1;
 const DEFAULT_SIZE = 9;
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { EventCategoryService } from './event-category.service';
+import eventCategoryService, { EventCategoryService } from './event-category.service';
 
 export class EventCategoryController {
   constructor(private readonly _service: EventCategoryService) {}
@@ -25,3 +25,5 @@ export class EventCategoryController {
     return res.send(result);
   };
 }
+
+export default new EventCategoryController(eventCategoryService);

@@ -60,7 +60,9 @@ export const EventEditContainer: React.FC = () => {
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
-      EventService.getAllEvents().then((data) => console.log(data?.data));
+      EventService.getAllEvents().then((data) =>
+        console.log('get all events', data?.data)
+      );
     },
   });
   const fields = [

@@ -1,4 +1,6 @@
 import { Model } from 'mongoose';
+
+import { FormFieldModel } from './form-field.model';
 import { CustomError } from '../error-handler/CustomError';
 import { NotFoundError } from '../error-handler/NotFoundError';
 import { log } from '../logger/logger';
@@ -54,3 +56,5 @@ export class FormFieldService {
     }
   }
 }
+
+export default new FormFieldService(FormFieldModel);

@@ -1,17 +1,19 @@
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import {
   Checkbox,
   FormControlLabel,
+  MenuItem,
   Select,
   TextField,
 } from '@material-ui/core';
-import { FilterEventDto } from '../../../../common types/dto/event/filter-event.dto';
-import { EventService } from '../../http/API/event.service';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+
+import { FilterEventDto } from '../../../../common types/dto/event/filter-event.dto';
+import { EventService } from '../../http/API/event.service';
+import { FilterOptionsDto } from '../../../../common types/dto/form-options/filter-options.dto';
+import { useEvents } from '../../hooks/useEvents.hook';
 
 const useStyles = makeStyles((theme) => ({
   searchContainer: {
@@ -21,6 +23,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
   formControl: {
     minWidth: 120,
   },
@@ -29,9 +38,12 @@ const useStyles = makeStyles((theme) => ({
 
 export const EventFilter = () => {
   const classes = useStyles();
-  const [params, setParams] = useState({});
+  const [params, setParams] = useState<FilterOptionsDto>();
+  const { fetchOptions } = useEvents();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchOptions().then(({ data }) => setParams(data));
+  }, []);
 
   const formik = useFormik<FilterEventDto>({
     initialValues: {
@@ -69,7 +81,13 @@ export const EventFilter = () => {
           onChange={formik.handleChange}
           error={formik.touched.type && Boolean(formik.errors.type)}
           className={classes.formControl}
-        />
+        >
+          {params?.types.map(({ name, _id }) => (
+            <MenuItem key={_id} value={_id}>
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
         <Select
           id="country"
           name="country"
@@ -78,7 +96,13 @@ export const EventFilter = () => {
           onChange={formik.handleChange}
           error={formik.touched.country && Boolean(formik.errors.country)}
           className={classes.formControl}
-        />
+        >
+          {params?.countries.map(({ name, _id }) => (
+            <MenuItem key={_id} value={_id}>
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
         <FormControlLabel
           id="isOnline"
           name="isOnline"
@@ -89,7 +113,12 @@ export const EventFilter = () => {
           labelPlacement="end"
           className={classes.formControl}
         />
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          type="submit"
+        >
           Search
         </Button>
       </form>

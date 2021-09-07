@@ -1,5 +1,6 @@
 import express from 'express';
+import formOptionsController from './form-options.controller';
 
-export const formRouter = express.Router();
+export const formOptionsRouter = express.Router();
 
-formRouter.get('/filter-options');
+formOptionsRouter.get('/filter-options', formOptionsController.getFilterOptions);

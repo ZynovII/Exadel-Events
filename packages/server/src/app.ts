@@ -4,14 +4,8 @@ import path from 'path';
 import cors from 'cors';
 import { connect as connectToMongo } from './db/connect';
 import { log } from './logger/logger';
-import { eventRouters } from './events/event.router';
-import { eventTypeRouter } from './event-types/event-type.router';
-import { eventCategoryRouter } from './event-categories/event-category.router';
-import { languageRouter } from './languages/language.router';
-import { applicantRouter } from './applicants/applicant.router';
-import { userRouter } from './users/user.router';
-import { formFieldRouter } from './form-fields/form-field.router';
 import { errorMiddleware } from './middleware/error.middleware';
+import { baseRouter } from './base-router';
 
 //FIXME: remove to config file
 //TODO: find better solution for ENV variables
@@ -28,13 +22,7 @@ app.use(cors());
 
 app.use(errorMiddleware);
 
-app.use(eventRouters);
-app.use(eventTypeRouter);
-app.use(eventCategoryRouter);
-app.use(languageRouter);
-app.use(applicantRouter);
-app.use(userRouter);
-app.use(formFieldRouter);
+app.use('/api', baseRouter);
 
 const start = async () => {
   try {

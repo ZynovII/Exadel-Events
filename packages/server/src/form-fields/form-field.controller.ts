@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { FormFieldService } from './form-field.service';
+import formFieldService, { FormFieldService } from './form-field.service';
 
 export class FormFieldController {
   constructor(private readonly _service: FormFieldService) {}
@@ -30,3 +30,5 @@ export class FormFieldController {
     return res.send(result);
   };
 }
+
+export default new FormFieldController(formFieldService);
