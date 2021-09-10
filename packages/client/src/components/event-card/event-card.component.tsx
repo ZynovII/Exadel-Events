@@ -20,27 +20,37 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     flexGrow: 1,
   },
+  cardlink: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
+  cardActions: {
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
 }));
 export const EventCard: FC<{ id: string }> = ({ id }) => {
   const classes = useStyles();
 
   return (
     <Card className={classes.card}>
-      <CardMedia
-        className={classes.cardMedia}
-        image="https://source.unsplash.com/random"
-        title="Image title"
-      />
-      <CardContent className={classes.cardContent}>
-        <Typography gutterBottom variant="h5" component="h2">
-          Heading
-        </Typography>
-        <Typography>
-          This is a media card. You can use this section to describe the
-          content.
-        </Typography>
-      </CardContent>
-      <CardActions>
+      <Link to={`/event/${id}`} className={classes.cardlink}>
+        <CardMedia
+          className={classes.cardMedia}
+          image="https://source.unsplash.com/random"
+          title="Image title"
+        />
+        <CardContent className={classes.cardContent}>
+          <Typography gutterBottom variant="h5" component="h2">
+            Heading
+          </Typography>
+          <Typography>
+            This is a media card. You can use this section to describe the
+            content.
+          </Typography>
+        </CardContent>
+      </Link>
+      <CardActions className={classes.cardActions}>
         <Button
           component={Link}
           to={`/event/${id}`}

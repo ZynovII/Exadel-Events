@@ -12,7 +12,7 @@ interface IRoute {
   exact: boolean;
 }
 
-export const routes: IRoute[] = [
+export const adminRoutes: IRoute[] = [
   { path: '/', Component: Events, exact: true },
   { path: '/event/:id', Component: EventInfo, exact: true },
   { path: '/applicants', Component: Applicants, exact: false },
@@ -21,7 +21,7 @@ export const routes: IRoute[] = [
 
 export const Router: React.FC = (): JSX.Element => (
   <Switch>
-    {routes.map(({ path, Component, exact }) => (
+    {adminRoutes.map(({ path, Component, exact }) => (
       <Route key={path} path={path} component={Component} exact={exact} />
     ))}
   </Switch>

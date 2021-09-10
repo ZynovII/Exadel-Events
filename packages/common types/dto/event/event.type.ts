@@ -1,20 +1,20 @@
 import { Field } from '../field/field.type';
 import { EventStatus } from './event-status.enum';
-import { EventType } from './event-type.enum';
 
 export type Event = {
   _id: string;
   title: string;
   description: string;
-  startDate: string;
-  endDate?: string;
-  country: string;
-  type: EventType;
+  startDate: Date;
+  endDate?: Date;
   status: EventStatus;
+  isOnline: boolean;
+  country: string[];
+  type: string;
   categories: string[];
   languages: string[];
-  isOnline: boolean;
   additionalData?: any;
   eventFields?: Field[];
   registrationFields?: Field[];
+  imgPath: string;
 };

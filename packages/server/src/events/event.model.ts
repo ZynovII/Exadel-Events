@@ -1,12 +1,19 @@
 import { Schema, model } from 'mongoose';
+import { EventStatus } from '../../../common types/dto/event/event-status.enum';
 import { Event } from '../../../common types/dto/event/event.type';
 
-export type EventDocument = Event;
-
-const schemaEvent = new Schema({
+const schemaEvent = new Schema<Event>({
   title: { type: String, required: true },
-  date: Date,
+  description: { type: String, required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date },
+  status: { type: String, default: EventStatus.draft },
+  isOnline: Boolean,
   additionalData: Schema.Types.Mixed,
+  countries: {
+    type: Schema.Types.ObjectId,
+    ref: 'Countries',
+  },
   eventTypes: {
     type: Schema.Types.ObjectId,
     ref: 'Event-Type',
@@ -31,4 +38,4 @@ const schemaEvent = new Schema({
   ],
 });
 schemaEvent.index({ '$**': 'text' });
-export const EventModel = model<EventDocument>('Event', schemaEvent);
+export const EventModel = model<Event>('Event', schemaEvent);

@@ -1,9 +1,7 @@
-import axios from 'axios';
 import { CreateEventDto } from '../../../common types/dto/event/create-event.dto';
 import { FilterEventDto } from '../../../common types/dto/event/filter-event.dto';
 import { ActionTypes } from '../context/action.types';
 import { EventService } from '../http/API/event.service';
-import { API_URL } from '../utils/constants';
 import { useStore } from './useStore.hook';
 
 export const useEvents = () => {
@@ -19,12 +17,16 @@ export const useEvents = () => {
   };
 
   const fetchOptions = async () => {
-    return await axios.get(`${API_URL}/filter-options`);
+    const options = await EventService.getOptions();
+    dispatch({ type: ActionTypes.FETCH_OPTIONS, payload: options });
   };
 
   return {
     createEvent,
     fetchEvents,
     fetchOptions,
+    options: state.options,
+    events: state.events,
+    applicants: state.applicants,
   };
 };

@@ -46,4 +46,12 @@ export class EventService {
       throw new HTTPError(err.message, err.status);
     }
   }
+
+  static async getOptions() {
+    try {
+      return await axios.get(`${API_URL}/filter-options`);
+    } catch (err) {
+      throw new HTTPError(err.message, err.status);
+    }
+  }
 }

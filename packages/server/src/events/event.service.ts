@@ -4,12 +4,14 @@ import { NotFoundError } from '../error-handler/NotFoundError';
 import { CreateEventDto } from '../../../common types/dto/event/create-event.dto';
 import { FilterEventDto } from '../../../common types/dto/event/filter-event.dto';
 import { ResponseEvent } from '../../../common types/dto/event/response-event.type';
-import { EventDocument, EventModel } from './event.model';
+import { EventModel } from './event.model';
+import { Event } from '../../../common types/dto/event/event.type';
+import { valuesInObjFromStringToDate } from '../utils/stringToDate';
 
 export class EventService {
-  constructor(private readonly _model: Model<EventDocument>) {}
+  constructor(private readonly _model: Model<Event>) {}
 
-  async createEvent(data: CreateEventDto): Promise<EventDocument> {
+  async createEvent(data: CreateEventDto): Promise<Event> {
     const newEvent = new this._model(data);
     return await newEvent.save();
   }
@@ -31,7 +33,7 @@ export class EventService {
     };
   }
 
-  async getEventById(id: string): Promise<EventDocument> {
+  async getEventById(id: string): Promise<Event> {
     try {
       const result = await this._model.findById(id);
       if (result) {
@@ -54,9 +56,10 @@ export class EventService {
     }
   }
 
-  async updateEvent(id: string, payload: CreateEventDto): Promise<EventDocument> {
+  async updateEvent(id: string, payload: Partial<CreateEventDto>): Promise<Event> {
+    const update = valuesInObjFromStringToDate(payload);
     try {
-      const result = await this._model.findByIdAndUpdate(id, payload);
+      const result = await this._model.findByIdAndUpdate(id, update);
       if (result) {
         return result;
       } else {

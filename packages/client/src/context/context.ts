@@ -1,9 +1,15 @@
 import { createContext } from 'react';
-import { IContext, IStore } from '../types/store';
+import { IContext, IStore } from './store.type';
 
 export const initialState: IStore = {
   events: [],
   applicants: [],
+  options: {
+    languages: [],
+    types: [],
+    countries: [],
+    categories: [],
+  },
   isAuth: false,
 };
 

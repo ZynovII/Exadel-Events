@@ -1,19 +1,13 @@
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Checkbox,
-  FormControlLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@material-ui/core';
 import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 import { FilterEventDto } from '../../../../common types/dto/event/filter-event.dto';
 import { EventService } from '../../http/API/event.service';
-import { FilterOptionsDto } from '../../../../common types/dto/form-options/filter-options.dto';
 import { useEvents } from '../../hooks/useEvents.hook';
+import { FieldForRender } from '../event-edit-container/fields.interface';
+import { EventEditField } from '../event-edit-field/event-edit-field.component';
 
 const useStyles = makeStyles((theme) => ({
   searchContainer: {
@@ -38,12 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const EventFilter = () => {
   const classes = useStyles();
-  const [params, setParams] = useState<FilterOptionsDto>();
-  const { fetchOptions } = useEvents();
-
-  useEffect(() => {
-    fetchOptions().then(({ data }) => setParams(data));
-  }, []);
+  const { fetchOptions, options } = useEvents();
 
   const formik = useFormik<FilterEventDto>({
     initialValues: {
@@ -54,65 +43,60 @@ export const EventFilter = () => {
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
-      EventService.getAllEvents({ page: 1, size: 9, search: 'Minsk' }).then(
-        (data) => console.log(data?.data)
-      );
+      EventService.getAllEvents(values).then((data) => console.log(data?.data));
     },
   });
+
+  const fields = useMemo<{ [key: string]: FieldForRender }>(
+    () => ({
+      search: {
+        type: 'text',
+        name: 'search',
+        label: 'Search',
+        value: formik.values.search,
+        onChange: formik.handleChange,
+        error: formik.touched.search && Boolean(formik.errors.search),
+        helperText: formik.touched.search && formik.errors.search,
+        className: classes.formControl,
+      },
+      type: {
+        type: 'select',
+        name: 'type',
+        label: 'Type',
+        value: formik.values.type,
+        onChange: formik.handleChange,
+        error: formik.touched.type && Boolean(formik.errors.type),
+        className: classes.formControl,
+        options: options.types,
+      },
+      country: {
+        type: 'select',
+        name: 'country',
+        label: 'Country',
+        value: formik.values.country,
+        onChange: formik.handleChange,
+        error: formik.touched.country && Boolean(formik.errors.country),
+        className: classes.formControl,
+        options: options.countries,
+      },
+      isOnline: {
+        type: 'checkbox',
+        name: 'isOnline',
+        label: 'Is Online',
+        value: formik.values.isOnline,
+        onChange: formik.handleChange,
+        className: classes.formControl,
+      },
+    }),
+    [formik, options, classes]
+  );
 
   return (
     <div className={classes.searchContainer}>
       <form onSubmit={formik.handleSubmit} className={classes.search}>
-        <TextField
-          id="search"
-          name="search"
-          label="Search"
-          value={formik.values.search}
-          onChange={formik.handleChange}
-          error={formik.touched.search && Boolean(formik.errors.search)}
-          helperText={formik.touched.search && formik.errors.search}
-          className={classes.formControl}
-        />
-        <Select
-          id="type"
-          name="type"
-          label="Type"
-          value={formik.values.type}
-          onChange={formik.handleChange}
-          error={formik.touched.type && Boolean(formik.errors.type)}
-          className={classes.formControl}
-        >
-          {params?.types.map(({ name, _id }) => (
-            <MenuItem key={_id} value={_id}>
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-        <Select
-          id="country"
-          name="country"
-          label="Country"
-          value={formik.values.country}
-          onChange={formik.handleChange}
-          error={formik.touched.country && Boolean(formik.errors.country)}
-          className={classes.formControl}
-        >
-          {params?.countries.map(({ name, _id }) => (
-            <MenuItem key={_id} value={_id}>
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-        <FormControlLabel
-          id="isOnline"
-          name="isOnline"
-          label="Is Online"
-          value={formik.values.isOnline}
-          onChange={formik.handleChange}
-          control={<Checkbox color="primary" />}
-          labelPlacement="end"
-          className={classes.formControl}
-        />
+        {Object.values(fields).map((value) => (
+          <EventEditField field={value} key={value.name} />
+        ))}
         <Button
           variant="contained"
           color="primary"

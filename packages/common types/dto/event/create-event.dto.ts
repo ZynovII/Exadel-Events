@@ -6,6 +6,13 @@ export interface CreateEventDto {
   title: string;
   description: string;
   startDate: string;
+  endDate?: string;
+  status: EventStatus;
+  isOnline: boolean;
+  country: string[];
+  type: string;
+  categories: string[];
+  languages: string[];
   additionalData: any;
   eventFields: Field[];
   registrationFields: Field[];
