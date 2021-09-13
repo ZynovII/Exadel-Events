@@ -5,7 +5,8 @@ export interface FieldForRender {
   name: string;
   label: string;
   value: any;
-  multiline?: boolean;
+  multiple?: boolean;
+  multiselect?: boolean;
   onChange: (value: any) => void;
   error?: any;
   helperText?: string | false | undefined;

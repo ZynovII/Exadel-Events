@@ -1,3 +1,3 @@
-export interface CreateLanguageDto {
-  name: string;
-}
+import { CreateDto } from '../create.dto';
+
+export interface CreateLanguageDto extends CreateDto {}

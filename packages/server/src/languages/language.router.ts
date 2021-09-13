@@ -7,6 +7,6 @@ languageRouter.get('/language', languageController.getAllLanguages);
 
 languageRouter.get('/language/:name', languageController.getLanguageByName);
 
-languageRouter.post('language', languageController.createLanguage);
+languageRouter.post('/language', languageController.createLanguage);
 
-languageRouter.delete('language', languageController.deleteLanguage);
+languageRouter.delete('/language', languageController.deleteLanguage);

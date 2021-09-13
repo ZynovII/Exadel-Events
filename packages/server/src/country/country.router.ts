@@ -7,6 +7,6 @@ countryRouter.get('/country', countryController.getAllCountries);
 
 countryRouter.get('/country/:name', countryController.getCountryByName);
 
-countryRouter.post('country', countryController.createCountry);
+countryRouter.post('/country', countryController.createCountry);
 
-countryRouter.delete('country', countryController.deleteCountry);
+countryRouter.delete('/country', countryController.deleteCountry);

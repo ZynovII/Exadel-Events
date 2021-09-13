@@ -4,11 +4,11 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DateTime } from 'luxon';
 
-import { EventService } from '../../http/API/event.service';
 import { CreateEventDto } from '../../../../common types/dto/event/create-event.dto';
 import { EventEditField } from '../event-edit-field/event-edit-field.component';
-import { useEvents } from '../../hooks/useEvents.hook';
 import { FieldForRender } from './fields.interface';
+import { useDropdownOptions } from '../../hooks/useDropdownOptions';
+import { Thumb } from './file-render.component';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,29 +44,24 @@ const useStyles = makeStyles((theme) => ({
 export const EventEditContainer: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const formik = useFormik<Partial<CreateEventDto>>({
+  const formik = useFormik<Partial<CreateEventDto> & { image?: any }>({
     initialValues: {
       title: '',
       description: '',
       startDate: DateTime.now().toISO(),
       endDate: DateTime.now().plus({ days: 1 }).toISO(),
       type: '',
-      isOnline: true,
+      isOnline: false,
       country: [],
       languages: [],
       categories: [],
-      eventFields: [],
-      registrationFields: [],
-      additionalData: {},
+      image: null,
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
-      EventService.getAllEvents().then((data) =>
-        console.log('get all events', data?.data)
-      );
     },
   });
-  const { fetchOptions, options } = useEvents();
+  const { options } = useDropdownOptions();
 
   const fd = useMemo<{ [key: string]: FieldForRender }>(
     () => ({
@@ -110,12 +105,12 @@ export const EventEditContainer: React.FC = () => {
         },
       },
       type: {
-        type: 'text',
+        type: 'select',
         name: 'type',
         label: 'Type',
         value: formik.values.type,
         onChange: formik.handleChange,
-        error: formik.touched.type && Boolean(formik.errors.type),
+        options: options.types,
       },
       isOnline: {
         type: 'checkbox',
@@ -128,14 +123,16 @@ export const EventEditContainer: React.FC = () => {
         type: 'select',
         name: 'country',
         label: 'Country',
+        multiple: true,
         value: formik.values.country,
         onChange: formik.handleChange,
         options: options?.countries,
       },
       languages: {
         type: 'select',
-        name: 'language',
+        name: 'languages',
         label: 'Lanuage',
+        multiple: true,
         value: formik.values.languages,
         onChange: formik.handleChange,
         options: options?.languages,
@@ -144,9 +141,19 @@ export const EventEditContainer: React.FC = () => {
         type: 'select',
         name: 'categories',
         label: 'Categories',
+        multiple: true,
         value: formik.values.categories,
         onChange: formik.handleChange,
         options: options?.categories,
+      },
+      image: {
+        type: 'file',
+        name: 'image',
+        label: 'Image',
+        value: undefined,
+        onChange: (event) => {
+          formik.setFieldValue('image', event.currentTarget.files[0]);
+        },
       },
     }),
     [options, formik]
@@ -159,6 +166,7 @@ export const EventEditContainer: React.FC = () => {
           {Object.values(fd).map((value) => (
             <EventEditField edit field={value} key={value.name} />
           ))}
+          <Thumb file={formik.values.image} />
         </div>
         <div className={classes.buttons}>
           <Button variant="contained" className={classes.button}>

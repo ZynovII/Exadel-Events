@@ -9,7 +9,9 @@ export class EventService {
   static async getAllEvents(params?: FilterEventDto) {
     const query = params ? '?' + generateQueryString(params) : '';
     try {
-      return await axios.get(`${API_URL}/events${query}`);
+      return await (
+        await axios.get(`${API_URL}/events${query}`)
+      ).data;
     } catch (err) {
       throw new HTTPError(err.message, err.status);
     }
@@ -17,7 +19,9 @@ export class EventService {
 
   static async getEventById(id: string) {
     try {
-      return await axios.get(`${API_URL}/events/${id}`);
+      return await (
+        await axios.get(`${API_URL}/events/${id}`)
+      ).data;
     } catch (err) {
       throw new HTTPError(err.message, err.status);
     }
@@ -25,7 +29,9 @@ export class EventService {
 
   static async createEvent(event: CreateEventDto) {
     try {
-      return await axios.post(`${API_URL}/events`, event);
+      return await (
+        await axios.post(`${API_URL}/events`, event)
+      ).data;
     } catch (err) {
       throw new HTTPError(err.message, err.status);
     }
@@ -33,7 +39,9 @@ export class EventService {
 
   static async updateEvent(id: string, event: CreateEventDto) {
     try {
-      return await axios.put(`${API_URL}/events/${id}`, event);
+      return await (
+        await axios.put(`${API_URL}/events/${id}`, event)
+      ).data;
     } catch (err) {
       throw new HTTPError(err.message, err.status);
     }
@@ -49,7 +57,9 @@ export class EventService {
 
   static async getOptions() {
     try {
-      return await axios.get(`${API_URL}/filter-options`);
+      return await (
+        await axios.get(`${API_URL}/filter-options`)
+      ).data;
     } catch (err) {
       throw new HTTPError(err.message, err.status);
     }

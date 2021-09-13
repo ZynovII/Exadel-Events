@@ -7,6 +7,6 @@ eventTypeRouter.get('/event-type', eventTypeController.getAllEventTypes);
 
 eventTypeRouter.get('/event-type/:name', eventTypeController.getEventTypeByName);
 
-eventTypeRouter.post('event-type', eventTypeController.createEventType);
+eventTypeRouter.post('/event-type', eventTypeController.createEventType);
 
-eventTypeRouter.delete('event-type', eventTypeController.deleteEventType);
+eventTypeRouter.delete('/event-type', eventTypeController.deleteEventType);

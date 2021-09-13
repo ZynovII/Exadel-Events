@@ -1,3 +1,3 @@
-export interface CreateEventTypeDto {
-  name: string;
-}
+import { CreateDto } from '../create.dto';
+
+export interface CreateEventTypeDto extends CreateDto {}

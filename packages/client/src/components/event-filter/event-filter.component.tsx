@@ -5,9 +5,9 @@ import { useMemo } from 'react';
 
 import { FilterEventDto } from '../../../../common types/dto/event/filter-event.dto';
 import { EventService } from '../../http/API/event.service';
-import { useEvents } from '../../hooks/useEvents.hook';
 import { FieldForRender } from '../event-edit-container/fields.interface';
 import { EventEditField } from '../event-edit-field/event-edit-field.component';
+import { useDropdownOptions } from '../../hooks/useDropdownOptions';
 
 const useStyles = makeStyles((theme) => ({
   searchContainer: {
@@ -27,12 +27,11 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 120,
   },
-  button: {},
 }));
 
 export const EventFilter = () => {
   const classes = useStyles();
-  const { fetchOptions, options } = useEvents();
+  const { options } = useDropdownOptions();
 
   const formik = useFormik<FilterEventDto>({
     initialValues: {
@@ -97,12 +96,7 @@ export const EventFilter = () => {
         {Object.values(fields).map((value) => (
           <EventEditField field={value} key={value.name} />
         ))}
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          type="submit"
-        >
+        <Button variant="contained" color="primary" type="submit">
           Search
         </Button>
       </form>

@@ -16,16 +16,9 @@ export const useEvents = () => {
     dispatch({ type: ActionTypes.FETCH_EVENTS, payload: events });
   };
 
-  const fetchOptions = async () => {
-    const options = await EventService.getOptions();
-    dispatch({ type: ActionTypes.FETCH_OPTIONS, payload: options });
-  };
-
   return {
     createEvent,
     fetchEvents,
-    fetchOptions,
-    options: state.options,
     events: state.events,
     applicants: state.applicants,
   };

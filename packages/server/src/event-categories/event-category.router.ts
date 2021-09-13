@@ -7,6 +7,6 @@ eventCategoryRouter.get('/event-type', eventCategoryController.getAllEventCatego
 
 eventCategoryRouter.get('/event-type/:name', eventCategoryController.getEventCategoryByName);
 
-eventCategoryRouter.post('event-type', eventCategoryController.createEventCategory);
+eventCategoryRouter.post('/event-type', eventCategoryController.createEventCategory);
 
-eventCategoryRouter.delete('event-type', eventCategoryController.deleteEventCategory);
+eventCategoryRouter.delete('/event-type', eventCategoryController.deleteEventCategory);

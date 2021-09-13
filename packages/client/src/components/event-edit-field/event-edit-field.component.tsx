@@ -2,7 +2,10 @@ import {
   Button,
   Card,
   Checkbox,
+  FormControl,
   FormControlLabel,
+  Input,
+  InputLabel,
   makeStyles,
   MenuItem,
   Select,
@@ -11,6 +14,7 @@ import {
 import { Edit, HighlightOff } from '@material-ui/icons';
 import { DatePicker } from '@material-ui/pickers';
 import React from 'react';
+
 import { FieldForRender } from '../event-edit-container/fields.interface';
 
 const useStayles = makeStyles((theme) => ({
@@ -57,22 +61,23 @@ export const EventEditField: React.FC<{
         );
       case 'select':
         return (
-          <Select
-            id={field.name}
-            {...field}
-            label={null}
-            className={classes.formControl}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {field.options &&
-              field.options.map(({ name, _id }) => (
-                <MenuItem key={_id} value={_id}>
-                  {name}
-                </MenuItem>
-              ))}
-          </Select>
+          <FormControl>
+            <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
+            <Select
+              id={field.name}
+              {...field}
+              input={<Input />}
+              labelId={`${field.name}-label`}
+              className={classes.formControl}
+            >
+              {field.options &&
+                field.options.map(({ name, _id }) => (
+                  <MenuItem key={_id} value={_id}>
+                    {name}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
         );
       case 'checkbox':
         return (
@@ -83,6 +88,12 @@ export const EventEditField: React.FC<{
             labelPlacement="end"
             className={classes.formControl}
           />
+        );
+      case 'file':
+        return (
+          <div>
+            <input id={field.name} {...field} />
+          </div>
         );
       default:
         return (
