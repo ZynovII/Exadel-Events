@@ -9,6 +9,7 @@ export type Event = {
   endDate?: Date;
   status: EventStatus;
   isOnline: boolean;
+  imagePath: string;
   country: string[];
   type: string;
   categories: string[];
@@ -16,5 +17,4 @@ export type Event = {
   additionalData?: any;
   eventFields?: Field[];
   registrationFields?: Field[];
-  imgPath: string;
 };

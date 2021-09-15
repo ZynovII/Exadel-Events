@@ -48,8 +48,7 @@ export class EventService {
 
   async deleteEvent(id: string): Promise<string> {
     try {
-      const result = await this.getEventById(id);
-      await this._model.findOneAndRemove(result);
+      await this._model.findByIdAndDelete(id);
       return 'Successfully deleted';
     } catch (err) {
       throw new CustomError();

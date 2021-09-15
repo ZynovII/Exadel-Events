@@ -1,6 +1,6 @@
 import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
-import React, { useMemo } from 'react';
+import React, { FormEvent, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DateTime } from 'luxon';
 
@@ -9,6 +9,8 @@ import { EventEditField } from '../event-edit-field/event-edit-field.component';
 import { FieldForRender } from './fields.interface';
 import { useDropdownOptions } from '../../hooks/useDropdownOptions';
 import { Thumb } from './file-render.component';
+import { useEvents } from '../../hooks/useEvents.hook';
+import { CreateEvent } from '../../types/create-event.type';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +46,9 @@ const useStyles = makeStyles((theme) => ({
 export const EventEditContainer: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const formik = useFormik<Partial<CreateEventDto> & { image?: any }>({
+  const { options } = useDropdownOptions();
+  const { createEvent } = useEvents();
+  const formik = useFormik<CreateEvent>({
     initialValues: {
       title: '',
       description: '',
@@ -59,11 +63,19 @@ export const EventEditContainer: React.FC = () => {
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
+      const { image, ...value } = values;
+      const event: CreateEventDto = {
+        ...value,
+        status: 'Draft',
+        eventFields: [],
+        registrationFields: [],
+        additionalData: {},
+      };
+      createEvent(event, image);
     },
   });
-  const { options } = useDropdownOptions();
 
-  const fd = useMemo<{ [key: string]: FieldForRender }>(
+  const fields = useMemo<{ [key: string]: FieldForRender }>(
     () => ({
       title: {
         type: 'text',
@@ -151,8 +163,9 @@ export const EventEditContainer: React.FC = () => {
         name: 'image',
         label: 'Image',
         value: undefined,
-        onChange: (event) => {
-          formik.setFieldValue('image', event.currentTarget.files[0]);
+        onChange: (event: FormEvent<HTMLInputElement>) => {
+          if (event.currentTarget.files?.length)
+            formik.setFieldValue('image', event.currentTarget.files[0]);
         },
       },
     }),
@@ -163,7 +176,7 @@ export const EventEditContainer: React.FC = () => {
       <form onSubmit={formik.handleSubmit}>
         <Typography variant="h5">{t('form_fields.basic_title')}</Typography>
         <div className={classes.fields}>
-          {Object.values(fd).map((value) => (
+          {Object.values(fields).map((value) => (
             <EventEditField edit field={value} key={value.name} />
           ))}
           <Thumb file={formik.values.image} />

@@ -7,8 +7,8 @@ import { useStore } from './useStore.hook';
 export const useEvents = () => {
   const { state, dispatch } = useStore();
 
-  const createEvent = async (createEventDto: CreateEventDto) => {
-    return await EventService.createEvent(createEventDto);
+  const createEvent = async (createEventDto: CreateEventDto, image: any) => {
+    return await EventService.createEvent(createEventDto, image);
   };
 
   const fetchEvents = async (params?: FilterEventDto) => {

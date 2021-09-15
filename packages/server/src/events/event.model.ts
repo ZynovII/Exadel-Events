@@ -8,6 +8,7 @@ const schemaEvent = new Schema<Event>({
   startDate: { type: Date, required: true },
   endDate: { type: Date },
   status: { type: String, default: EventStatus.draft },
+  imagePath: String,
   isOnline: Boolean,
   additionalData: Schema.Types.Mixed,
   countries: {

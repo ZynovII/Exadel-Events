@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import eventService, { EventService } from './event.service';
 
 export class EventController {
@@ -10,6 +10,11 @@ export class EventController {
     return res.send(event);
   };
 
+  getEventById = async (req: Request, res: Response, next: NextFunction) => {
+    const result = await this._service.getEventById(req.params.eventId);
+    return res.send(result);
+  };
+
   getEvents = async (req: Request, res: Response): Promise<Response> => {
     const params = req.query;
     const events = await this._service.getAllEvents(params);
@@ -17,12 +22,12 @@ export class EventController {
   };
 
   deleteEvent = async (req: Request, res: Response): Promise<Response> => {
-    const events = await this._service.deleteEvent(req.params.id);
+    const events = await this._service.deleteEvent(req.params.eventId);
     return res.send(events);
   };
 
   updateEvent = async (req: Request, res: Response): Promise<Response> => {
-    const events = await this._service.updateEvent(req.params.id, req.body);
+    const events = await this._service.updateEvent(req.params.eventId, req.body);
     return res.send(events);
   };
 }

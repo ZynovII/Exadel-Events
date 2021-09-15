@@ -13,3 +13,7 @@ export class HTTPError extends CustomError {
     this.status = status || 500;
   }
 }
+
+export const errorHandler = (err: unknown) => {
+  console.log(err);
+};

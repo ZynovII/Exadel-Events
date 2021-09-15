@@ -7,12 +7,13 @@ export interface CreateEventDto {
   description: string;
   startDate: string;
   endDate?: string;
-  status: EventStatus;
+  status: 'Draft' | 'Archived' | 'Published';
   isOnline: boolean;
   country: string[];
   type: string;
   categories: string[];
   languages: string[];
+  imagePath?: string;
   additionalData: any;
   eventFields: Field[];
   registrationFields: Field[];

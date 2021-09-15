@@ -1,21 +1,31 @@
 import { Breadcrumbs, Link, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import {
+  useHistory,
+  Link as RouterLink,
+  useRouteMatch,
+} from 'react-router-dom';
+
+const breadcrumbNameMap: { [key: string]: string } = {
+  '/': 'Events',
+  '/event/:id': 'Event',
+  '/event/:id/edit': 'Event Editing',
+  '/applicants': 'Applicants',
+};
 
 export const MyBreadcrumbs = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const match = useRouteMatch();
 
-  const clickHandler = () => {
-    history.push('/');
-  };
+  const pathnames = history.location.pathname.split('/').filter((x) => x);
 
   return (
     <Breadcrumbs aria-label="breadcrumb">
-      <Link color="inherit" onClick={clickHandler}>
+      <Link component={RouterLink} color="inherit" to="/">
         {t('navigation.events')}
       </Link>
-      <Typography color="textPrimary">{t('navigation.event_edit')}</Typography>
+      {/* <Typography color="textPrimary">{t('navigation.event_edit')}</Typography> */}
     </Breadcrumbs>
   );
 };
