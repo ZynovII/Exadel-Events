@@ -1,8 +1,6 @@
 import { Model } from 'mongoose';
 import { Applicant } from '../../../common types/dto/applicant/applicant.type';
-import { CustomError } from '../error-handler/CustomError';
 import { NotFoundError } from '../error-handler/NotFoundError';
-import { log } from '../logger/logger';
 import { DELETED } from '../utils/constants';
 import { CreateApplicantDto } from '../../../common types/dto/applicant/create-applicant.dto';
 
@@ -19,38 +17,23 @@ export class ApplicantService {
   }
 
   async getApplicantById(id: string): Promise<Applicant> {
-    try {
-      const result = await this._model.findOne({ id });
-      if (result === null) {
-        throw new NotFoundError('Applicant');
-      }
-      return result;
-    } catch (err) {
-      log.info(err);
-      throw new CustomError();
+    const result = await this._model.findOne({ id });
+    if (result === null) {
+      throw new NotFoundError('Applicant');
     }
+    return result;
   }
 
   async deleteApplicant(id: string): Promise<string> {
-    try {
-      await this._model.remove(await this.getApplicantById(id));
-      return DELETED;
-    } catch (err) {
-      log.info(err);
-      throw new CustomError();
-    }
+    await this._model.remove(await this.getApplicantById(id));
+    return DELETED;
   }
 
   async updateApplicant(id: string, payload: CreateApplicantDto): Promise<Applicant> {
-    try {
-      const result = await this._model.findByIdAndUpdate(id, payload);
-      if (result === null) {
-        throw new NotFoundError('Applicant');
-      }
-      return result;
-    } catch (err) {
-      log.info(err);
-      throw new CustomError();
+    const result = await this._model.findByIdAndUpdate(id, payload);
+    if (result === null) {
+      throw new NotFoundError('Applicant');
     }
+    return result;
   }
 }

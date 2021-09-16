@@ -1,10 +1,8 @@
 import { Model } from 'mongoose';
 
 import { CountryModel } from './country.model';
-import { log } from '../logger/logger';
 import { CreateCountryDto } from '../../../common types/dto/country/create-country.dto';
 import { NotFoundError } from '../error-handler/NotFoundError';
-import { CustomError } from '../error-handler/CustomError';
 import { DELETED } from '../utils/constants';
 import { Country } from '../../../common types/dto/country/country.type';
 
@@ -21,26 +19,16 @@ export class CountryService {
   }
 
   async getCountryByName(name: string): Promise<Country> {
-    try {
-      const result = await this._model.findOne({ name });
-      if (result === null) {
-        throw new NotFoundError('Country');
-      }
-      return result;
-    } catch (err) {
-      log.info(err);
-      throw new CustomError();
+    const result = await this._model.findOne({ name });
+    if (result === null) {
+      throw new NotFoundError('Country');
     }
+    return result;
   }
 
   async deleteCountry(name: string): Promise<string> {
-    try {
-      await this._model.remove(await this.getCountryByName(name));
-      return DELETED;
-    } catch (err) {
-      log.info(err);
-      throw new CustomError();
-    }
+    await this._model.remove(await this.getCountryByName(name));
+    return DELETED;
   }
 }
 

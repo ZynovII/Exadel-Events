@@ -1,10 +1,9 @@
 import { Model } from 'mongoose';
-import { CustomError } from '../error-handler/CustomError';
 import { NotFoundError } from '../error-handler/NotFoundError';
-import { log } from '../logger/logger';
 import { DELETED } from '../utils/constants';
 import { CreateUserDto } from '../../../common types/dto/user/create-user.dto';
 import { User } from '../../../common types/dto/user/user.type';
+import { UserModel } from './user.model';
 
 export class UserService {
   constructor(private readonly _model: Model<User>) {}
@@ -19,38 +18,25 @@ export class UserService {
   }
 
   async getUserById(id: string): Promise<User> {
-    try {
-      const result = await this._model.findOne({ id });
-      if (result === null) {
-        throw new NotFoundError('User');
-      }
-      return result;
-    } catch (err) {
-      log.info(err);
-      throw new CustomError();
+    const result = await this._model.findOne({ id });
+    if (result === null) {
+      throw new NotFoundError('User');
     }
+    return result;
   }
 
   async deleteUser(id: string): Promise<string> {
-    try {
-      await this._model.remove(await this.getUserById(id));
-      return DELETED;
-    } catch (err) {
-      log.info(err);
-      throw new CustomError();
-    }
+    await this._model.remove(await this.getUserById(id));
+    return DELETED;
   }
 
   async updateUser(id: string, payload: CreateUserDto): Promise<User> {
-    try {
-      const result = await this._model.findByIdAndUpdate(id, payload);
-      if (result === null) {
-        throw new NotFoundError('User');
-      }
-      return result;
-    } catch (err) {
-      log.info(err);
-      throw new CustomError();
+    const result = await this._model.findByIdAndUpdate(id, payload);
+    if (result === null) {
+      throw new NotFoundError('User');
     }
+    return result;
   }
 }
+
+export default new UserService(UserModel);
