@@ -1,12 +1,16 @@
 import axios from 'axios';
 import { CreateEventDto } from '../../../../common types/dto/event/create-event.dto';
+import { Event } from '../../../../common types/dto/event/event.type';
 import { FilterEventDto } from '../../../../common types/dto/event/filter-event.dto';
+import { ResponseEvents } from '../../../../common types/dto/event/response-event.type';
 import { errorHandler } from '../../error-handler/error-handler';
 import { API_URL } from '../../utils/constants';
 import { generateQueryString } from '../../utils/generate-query-string';
 
 export class EventService {
-  static async getAllEvents(params?: FilterEventDto) {
+  static async getAllEvents(
+    params?: FilterEventDto
+  ): Promise<ResponseEvents | undefined> {
     const query = params ? '?' + generateQueryString(params) : '';
     try {
       return await (
@@ -17,7 +21,7 @@ export class EventService {
     }
   }
 
-  static async getEventById(id: string) {
+  static async getEventById(id: string): Promise<Event | undefined> {
     try {
       return await (
         await axios.get(`${API_URL}/events/${id}`)

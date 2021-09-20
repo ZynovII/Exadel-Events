@@ -5,7 +5,7 @@ export type CreateEvent = {
   endDate: string;
   type: string;
   isOnline: boolean;
-  country: string[];
+  countries: string[];
   languages: string[];
   categories: string[];
   image: any;

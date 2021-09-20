@@ -6,6 +6,7 @@ export interface FieldForRender {
   label: string;
   value: any;
   multiple?: boolean;
+  accept?: string;
   multiselect?: boolean;
   onChange: (value: any) => void;
   error?: any;

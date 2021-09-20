@@ -10,7 +10,10 @@ import {
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router';
+
 import { MyBreadcrumbs } from '../components/breadcrumbs/breadcrumbs.coponent';
+import { useEvents } from '../hooks/useEvents.hook';
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedEvent: {},
@@ -36,28 +39,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const event = {
-  id: '1',
-  image: 'https://source.unsplash.com/random',
-  imageText: 'image',
-  title: 'Great Event',
-  linkText: 'ksnjglsn',
-  description: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-    Sint dolor fuga reprehenderit accusamus architecto assumenda, dicta laboriosam! 
-    Quaerat excepturi ab libero voluptas eaque rerum, dolore dolorem repudiandae? 
-    Fugit, fugiat perspiciatis?`,
-};
-
 export const EventInfo: React.FC = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const history = useHistory();
+  const params = useParams<{ id: string }>();
+
+  const { eventById, isLoading } = useEvents({ id: params.id });
+
   const clickHandlerToEdit = () => {
-    history.push(`/event/${event.id}/edit/event-form`);
+    history.push(`/event/${eventById?._id}/edit/event-form`);
   };
   const clickHandlerToApplicants = () => {
-    history.push(`/applicants/${event.id}`);
+    history.push(`/applicants/${eventById?._id}`);
   };
+
+  if (isLoading) return <div>loading...</div>;
+
   return (
     <>
       <MyBreadcrumbs />
@@ -71,13 +69,17 @@ export const EventInfo: React.FC = () => {
                 color="inherit"
                 gutterBottom
               >
-                {event.title}
+                {eventById?.title}
               </Typography>
               <Typography variant="h5" color="inherit" paragraph>
-                {event.description}
+                {eventById?.countries.map((country) => (
+                  <Typography component={'span'} key={country._id}>
+                    {country?.name}
+                  </Typography>
+                ))}
               </Typography>
               <Link variant="subtitle1" href="#">
-                {event.linkText}
+                {eventById?.type.name}
               </Link>
             </div>
           </Grid>
@@ -101,22 +103,21 @@ export const EventInfo: React.FC = () => {
         <Grid container spacing={5} className={classes.mainGrid}>
           <Grid item xs={12} md={8}>
             <Typography variant="h6" gutterBottom>
-              {event.title}
+              {eventById?.categories.map((category) => (
+                <Typography key={category._id}>{category?.name}</Typography>
+              ))}
             </Typography>
             <Divider />
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos
-              nobis nihil similique aliquam error tempora ex praesentium
-              reiciendis illum ipsa, libero, labore voluptates vero blanditiis
-              aspernatur quam nostrum quod repellat.
-            </Typography>
+            <Typography>{eventById?.description}</Typography>
           </Grid>
           <Grid item xs={12} md={4}>
             <Paper elevation={0} className={classes.sidebarAboutBox}>
               <Typography variant="h6" gutterBottom>
-                {event.title}
+                Languages
               </Typography>
-              <Typography>{event.description}</Typography>
+              {eventById?.languages.map((language) => (
+                <Typography key={language._id}>{language?.name}</Typography>
+              ))}
             </Paper>
             <Typography
               variant="h6"
@@ -125,7 +126,6 @@ export const EventInfo: React.FC = () => {
             >
               Archives
             </Typography>
-            sjsb;bhjsbdv
             <Typography
               variant="h6"
               gutterBottom

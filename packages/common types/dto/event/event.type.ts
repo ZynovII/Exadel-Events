@@ -1,4 +1,8 @@
+import { Country } from '../country/country.type';
+import { EventCategory } from '../event-category/event-category.type';
+import { EventType } from '../event-type/event-type.type';
 import { Field } from '../field/field.type';
+import { Language } from '../language/language.type';
 import { EventStatus } from './event-status.enum';
 
 export type Event = {
@@ -10,10 +14,10 @@ export type Event = {
   status: EventStatus;
   isOnline: boolean;
   imagePath: string;
-  country: string[];
-  type: string;
-  categories: string[];
-  languages: string[];
+  countries: Country[];
+  type: EventType;
+  categories: EventCategory[];
+  languages: Language[];
   additionalData?: any;
   eventFields?: Field[];
   registrationFields?: Field[];

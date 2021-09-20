@@ -11,14 +11,16 @@ const schemaEvent = new Schema<Event>({
   imagePath: String,
   isOnline: Boolean,
   additionalData: Schema.Types.Mixed,
-  countries: {
-    type: Schema.Types.ObjectId,
-    ref: 'Countries',
-  },
-  eventTypes: {
+  type: {
     type: Schema.Types.ObjectId,
     ref: 'Event-Type',
   },
+  countries: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Country',
+    },
+  ],
   categories: [
     {
       type: Schema.Types.ObjectId,
@@ -28,7 +30,7 @@ const schemaEvent = new Schema<Event>({
   languages: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Langeage',
+      ref: 'Language',
     },
   ],
   registrationFields: [

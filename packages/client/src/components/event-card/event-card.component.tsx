@@ -7,6 +7,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { FC } from 'react';
+import { Event } from '../../../../common types/dto/event/event.type';
+import { stringSeparator } from '../../utils/stringSeparator';
+import { SERVER_URL } from '../../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -29,31 +32,29 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-around',
   },
 }));
-export const EventCard: FC<{ id: string }> = ({ id }) => {
+export const EventCard: FC<{ event: Event }> = ({ event }) => {
   const classes = useStyles();
-
   return (
     <Card className={classes.card}>
-      <Link to={`/event/${id}`} className={classes.cardlink}>
+      <Link to={`/event/${event._id}`} className={classes.cardlink}>
         <CardMedia
           className={classes.cardMedia}
-          image="https://source.unsplash.com/random"
+          image={
+            SERVER_URL + event.imagePath || 'https://source.unsplash.com/random'
+          }
           title="Image title"
         />
         <CardContent className={classes.cardContent}>
           <Typography gutterBottom variant="h5" component="h2">
-            Heading
+            {event.title}
           </Typography>
-          <Typography>
-            This is a media card. You can use this section to describe the
-            content.
-          </Typography>
+          <Typography>{stringSeparator(event.description)}</Typography>
         </CardContent>
       </Link>
       <CardActions className={classes.cardActions}>
         <Button
           component={Link}
-          to={`/event/${id}`}
+          to={`/event/${event._id}`}
           size="small"
           color="primary"
         >
@@ -61,7 +62,7 @@ export const EventCard: FC<{ id: string }> = ({ id }) => {
         </Button>
         <Button
           component={Link}
-          to={`/event/${id}/edit/event-form`}
+          to={`/event/${event._id}/edit/event-form`}
           size="small"
           color="primary"
         >

@@ -56,13 +56,13 @@ export const EventEditContainer: React.FC = () => {
       endDate: DateTime.now().plus({ days: 1 }).toISO(),
       type: '',
       isOnline: false,
-      country: [],
+      countries: [],
       languages: [],
       categories: [],
       image: null,
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      console.log(JSON.stringify(values, null, 2));
       const { image, ...value } = values;
       const event: CreateEventDto = {
         ...value,
@@ -128,15 +128,15 @@ export const EventEditContainer: React.FC = () => {
         type: 'checkbox',
         name: 'isOnline',
         label: 'Is Online',
-        value: formik.values.country,
+        value: formik.values.countries,
         onChange: formik.handleChange,
       },
       country: {
         type: 'select',
-        name: 'country',
+        name: 'countries',
         label: 'Country',
         multiple: true,
-        value: formik.values.country,
+        value: formik.values.countries,
         onChange: formik.handleChange,
         options: options?.countries,
       },
@@ -163,6 +163,7 @@ export const EventEditContainer: React.FC = () => {
         name: 'image',
         label: 'Image',
         value: undefined,
+        accept: '.jpg, .jpeg, .png, .gif',
         onChange: (event: FormEvent<HTMLInputElement>) => {
           if (event.currentTarget.files?.length)
             formik.setFieldValue('image', event.currentTarget.files[0]);

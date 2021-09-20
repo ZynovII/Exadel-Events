@@ -9,7 +9,7 @@ export interface CreateEventDto {
   endDate?: string;
   status: 'Draft' | 'Archived' | 'Published';
   isOnline: boolean;
-  country: string[];
+  countries: string[];
   type: string;
   categories: string[];
   languages: string[];

@@ -6,6 +6,7 @@ import { EventFilter } from '../components/event-filter/event-filter.component';
 import { EventCard } from '../components/event-card/event-card.component';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { useEvents } from '../hooks/useEvents.hook';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -17,10 +18,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 export const Events: FC = () => {
   const classes = useStyles();
+
+  const { events } = useEvents({ isFetch: true });
+
   return (
     <>
       <EventFilter />
@@ -35,9 +37,9 @@ export const Events: FC = () => {
           Create Event
         </Button>
         <Grid container spacing={4}>
-          {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
-              <EventCard id={card.toString()} />
+          {events.map((event) => (
+            <Grid item key={event._id} xs={12} sm={6} md={4}>
+              <EventCard event={event} />
             </Grid>
           ))}
         </Grid>
