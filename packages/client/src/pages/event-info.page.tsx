@@ -2,7 +2,6 @@ import {
   Button,
   Divider,
   Grid,
-  Link,
   makeStyles,
   Paper,
   Typography,
@@ -14,6 +13,7 @@ import { useParams } from 'react-router';
 
 import { MyBreadcrumbs } from '../components/breadcrumbs/breadcrumbs.coponent';
 import { useEvents } from '../hooks/useEvents.hook';
+import { dateToLocalString } from '../utils/dateFormater';
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedEvent: {},
@@ -54,6 +54,8 @@ export const EventInfo: React.FC = () => {
     history.push(`/applicants/${eventById?._id}`);
   };
 
+  console.log(eventById);
+
   if (isLoading) return <div>loading...</div>;
 
   return (
@@ -72,15 +74,13 @@ export const EventInfo: React.FC = () => {
                 {eventById?.title}
               </Typography>
               <Typography variant="h5" color="inherit" paragraph>
-                {eventById?.countries.map((country) => (
-                  <Typography component={'span'} key={country._id}>
-                    {country?.name}
-                  </Typography>
-                ))}
+                {dateToLocalString(eventById?.startDate) +
+                  ' - ' +
+                  dateToLocalString(eventById?.endDate)}
               </Typography>
-              <Link variant="subtitle1" href="#">
-                {eventById?.type.name}
-              </Link>
+              {eventById?.categories.map((category) => (
+                <Typography key={category._id}>{category?.name}</Typography>
+              ))}
             </div>
           </Grid>
           <Grid item container xs={2} direction="column">
@@ -102,11 +102,7 @@ export const EventInfo: React.FC = () => {
         </Grid>
         <Grid container spacing={5} className={classes.mainGrid}>
           <Grid item xs={12} md={8}>
-            <Typography variant="h6" gutterBottom>
-              {eventById?.categories.map((category) => (
-                <Typography key={category._id}>{category?.name}</Typography>
-              ))}
-            </Typography>
+            <Typography variant="h6" gutterBottom></Typography>
             <Divider />
             <Typography>{eventById?.description}</Typography>
           </Grid>
@@ -124,16 +120,20 @@ export const EventInfo: React.FC = () => {
               gutterBottom
               className={classes.sidebarSection}
             >
-              Archives
+              Countries
             </Typography>
-            <Typography
-              variant="h6"
-              gutterBottom
-              className={classes.sidebarSection}
-            >
-              Social
-            </Typography>
-            Social Links
+            {eventById?.countries.map((country) => (
+              <Typography key={country._id}>{country?.name}</Typography>
+            ))}
+            {eventById?.isOnline && (
+              <Typography
+                variant="h5"
+                gutterBottom
+                className={classes.sidebarSection}
+              >
+                Online
+              </Typography>
+            )}
           </Grid>
         </Grid>
       </Paper>

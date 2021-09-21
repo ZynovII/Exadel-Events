@@ -4,6 +4,7 @@ import { Event } from '../../../common types/dto/event/event.type';
 import { FilterEventDto } from '../../../common types/dto/event/filter-event.dto';
 import { ActionTypes } from '../context/action.types';
 import { EventService } from '../http/API/event.service';
+import { valuesInObjFromStringToDate } from '../utils/dateFormater';
 import { useStore } from './useStore.hook';
 
 export const useEvents = (params?: { isFetch?: boolean; id?: string }) => {
@@ -20,7 +21,10 @@ export const useEvents = (params?: { isFetch?: boolean; id?: string }) => {
       const { data } = (await EventService.getAllEvents(params)) || {
         data: [],
       };
-      dispatch({ type: ActionTypes.FETCH_EVENTS, payload: data });
+      dispatch({
+        type: ActionTypes.FETCH_EVENTS,
+        payload: valuesInObjFromStringToDate(data),
+      });
       setLoading(false);
     },
     [dispatch]
@@ -31,7 +35,7 @@ export const useEvents = (params?: { isFetch?: boolean; id?: string }) => {
       const result =
         state.events.find((event) => event._id === id) ||
         (await EventService.getEventById(id));
-      setEventById(result);
+      setEventById(valuesInObjFromStringToDate(result));
       setLoading(false);
     },
     [state.events]

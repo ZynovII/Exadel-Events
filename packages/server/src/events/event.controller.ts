@@ -13,7 +13,7 @@ export class EventController {
     try {
       const body = req.body;
       const event = await this._service.createEvent(body);
-      return res.send(event);
+      return res.status(201).send(event);
     } catch (err) {
       log.error(err);
       next(err);
@@ -27,7 +27,7 @@ export class EventController {
   ): Promise<Response | void> => {
     try {
       const result = await this._service.getEventById(req.params.eventId);
-      return res.send(result);
+      return res.status(200).send(result);
     } catch (err) {
       log.error(err);
       next(err);
@@ -38,7 +38,7 @@ export class EventController {
     try {
       const params = req.query;
       const events = await this._service.getAllEvents(params);
-      return res.send(events);
+      return res.status(200).send(events);
     } catch (err) {
       log.error(err);
       next(err);
@@ -52,7 +52,7 @@ export class EventController {
   ): Promise<Response | void> => {
     try {
       const events = await this._service.deleteEvent(req.params.eventId);
-      return res.send(events);
+      return res.status(200).send(events);
     } catch (err) {
       log.error(err);
       next(err);
@@ -66,7 +66,7 @@ export class EventController {
   ): Promise<Response | void> => {
     try {
       const events = await this._service.updateEvent(req.params.eventId, req.body);
-      return res.send(events);
+      return res.status(200).send(events);
     } catch (err) {
       log.error(err);
       next(err);
