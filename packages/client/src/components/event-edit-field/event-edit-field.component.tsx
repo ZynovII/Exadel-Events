@@ -15,7 +15,7 @@ import { Edit, HighlightOff } from '@material-ui/icons';
 import { DatePicker } from '@material-ui/pickers';
 import React from 'react';
 
-import { FieldForRender } from '../event-edit-container/fields.interface';
+import { FieldForRender } from '../event-edit-form/fields.interface';
 
 const useStayles = makeStyles((theme) => ({
   root: {

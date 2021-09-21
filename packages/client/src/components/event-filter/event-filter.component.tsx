@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 
 import { FilterEventDto } from '../../../../common types/dto/event/filter-event.dto';
 import { EventService } from '../../http/API/event.service';
-import { FieldForRender } from '../event-edit-container/fields.interface';
+import { FieldForRender } from '../event-edit-form/fields.interface';
 import { EventEditField } from '../event-edit-field/event-edit-field.component';
 import { useDropdownOptions } from '../../hooks/useDropdownOptions';
 

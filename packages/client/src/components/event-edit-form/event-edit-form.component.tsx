@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const EventEditContainer: React.FC = () => {
+export const EventEditForm: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const { options } = useDropdownOptions();

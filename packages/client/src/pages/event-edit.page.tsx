@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Route, Switch, useHistory, useParams } from 'react-router-dom';
 
 import { MyBreadcrumbs } from '../components/breadcrumbs/breadcrumbs.coponent';
-import { EventEditContainer } from '../components/event-edit-container/event-edit-container.component';
+import { EventEditForm } from '../components/event-edit-form/event-edit-form.component';
 import { FieldsManager } from '../components/fields-manager/fields-manager.component';
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +54,7 @@ export const EventEdit: React.FC = () => {
           <Route path={`/event/${params.id}/edit/event-form`} exact>
             <Grid container spacing={2}>
               <Grid item xs={8}>
-                <EventEditContainer />
+                <EventEditForm />
               </Grid>
               <Grid item xs={4}>
                 <FieldsManager />
@@ -64,7 +64,7 @@ export const EventEdit: React.FC = () => {
           <Route path={`/event/${params.id}/edit/registration-form`} exact>
             <Grid container spacing={2}>
               <Grid item xs={8}>
-                <EventEditContainer />
+                <EventEditForm />
               </Grid>
               <Grid item xs={4}>
                 <FieldsManager />
