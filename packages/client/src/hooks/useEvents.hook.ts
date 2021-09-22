@@ -10,14 +10,22 @@ import { useStore } from './useStore.hook';
 export const useEvents = (params?: { isFetch?: boolean; id?: string }) => {
   const { state, dispatch } = useStore();
   const [eventById, setEventById] = useState<Event | undefined>();
-  const [isLoading, setLoading] = useState(true);
 
   const createEvent = async (createEventDto: CreateEventDto, image: any) => {
     return await EventService.createEvent(createEventDto, image);
   };
 
+  const updateEvent = async (
+    id: string,
+    createEventDto: CreateEventDto,
+    image: any
+  ) => {
+    return await EventService.updateEvent(id, createEventDto, image);
+  };
+
   const fetchEvents = useCallback(
     async (params?: FilterEventDto) => {
+      dispatch({ type: ActionTypes.LOADING, payload: null });
       const { data } = (await EventService.getAllEvents(params)) || {
         data: [],
       };
@@ -25,20 +33,21 @@ export const useEvents = (params?: { isFetch?: boolean; id?: string }) => {
         type: ActionTypes.FETCH_EVENTS,
         payload: valuesInObjFromStringToDate(data),
       });
-      setLoading(false);
+      dispatch({ type: ActionTypes.LOADED, payload: null });
     },
     [dispatch]
   );
 
   const getEventById = useCallback(
     async (id) => {
+      dispatch({ type: ActionTypes.LOADING, payload: null });
       const result =
         state.events.find((event) => event._id === id) ||
         (await EventService.getEventById(id));
       setEventById(valuesInObjFromStringToDate(result));
-      setLoading(false);
+      dispatch({ type: ActionTypes.LOADED, payload: null });
     },
-    [state.events]
+    [state.events, dispatch]
   );
 
   useEffect(() => {
@@ -52,8 +61,9 @@ export const useEvents = (params?: { isFetch?: boolean; id?: string }) => {
   return {
     createEvent,
     fetchEvents,
+    updateEvent,
     eventById,
     events: state.events,
-    isLoading,
+    isLoading: state.isLoading,
   };
 };

@@ -30,16 +30,19 @@ export class EventService {
       errorHandler(err);
     }
   }
+  static async uploadImage(image: any) {
+    const data = new FormData();
+    data.append('file', image, image.name);
+    return await (
+      await axios.post(`${API_URL}/upload-image`, data)
+    ).data;
+  }
 
   static async createEvent(event: CreateEventDto, image?: any) {
     try {
       let imagePath = null;
       if (image) {
-        const data = new FormData();
-        data.append('file', image, image.name);
-        imagePath = await (
-          await axios.post(`${API_URL}/upload-image`, data)
-        ).data;
+        imagePath = await this.uploadImage(image);
       }
       return await (
         await axios.post(`${API_URL}/events`, { ...event, imagePath })
@@ -49,10 +52,14 @@ export class EventService {
     }
   }
 
-  static async updateEvent(id: string, event: CreateEventDto) {
+  static async updateEvent(id: string, event: CreateEventDto, image: any) {
     try {
+      let imagePath = image;
+      if (image instanceof Blob) {
+        imagePath = await this.uploadImage(image);
+      }
       return await (
-        await axios.put(`${API_URL}/events/${id}`, event)
+        await axios.put(`${API_URL}/events/${id}`, { ...event, imagePath })
       ).data;
     } catch (err) {
       errorHandler(err);

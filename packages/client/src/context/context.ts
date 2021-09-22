@@ -11,6 +11,7 @@ export const initialState: IStore = {
     categories: [],
   },
   isAuth: false,
+  isLoading: false,
 };
 
 export const Context = createContext<IContext>({

@@ -9,6 +9,7 @@ export interface IStore {
   applicants: Applicant[];
   options: FilterOptionsDto;
   isAuth: boolean;
+  isLoading: boolean;
 }
 export interface IAction {
   type: ActionTypes;

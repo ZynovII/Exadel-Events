@@ -1,10 +1,11 @@
 import React from 'react';
+import { SERVER_URL } from '../../utils/constants';
 
 interface Prop {
   file: any;
 }
 
-export class Thumb extends React.Component<Prop> {
+export class FileRenderer extends React.Component<Prop> {
   state = {
     loading: false,
     thumb: undefined,
@@ -15,6 +16,10 @@ export class Thumb extends React.Component<Prop> {
       return;
     }
 
+    if (!(nextProps.file instanceof Blob)) {
+      this.setState({ thumb: SERVER_URL + nextProps.file });
+      return;
+    }
     this.setState({ loading: true }, () => {
       let reader = new FileReader();
 
@@ -39,13 +44,14 @@ export class Thumb extends React.Component<Prop> {
     }
 
     return (
-      <img
-        src={thumb}
-        alt={file.name}
-        className="img-thumbnail mt-2"
-        height={200}
-        width={200}
-      />
+      <div>
+        <img
+          src={thumb}
+          alt={file.name}
+          className="img-thumbnail mt-2"
+          height={200}
+        />
+      </div>
     );
   }
 }

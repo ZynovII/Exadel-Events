@@ -8,14 +8,16 @@ export const useDropdownOptions = () => {
   const { state, dispatch } = useStore();
 
   const fetchOptions = useCallback(() => {
-    EventService.getOptions().then((options) =>
-      dispatch({ type: ActionTypes.FETCH_OPTIONS, payload: options })
-    );
+    dispatch({ type: ActionTypes.LOADING, payload: null });
+    EventService.getOptions().then((options) => {
+      dispatch({ type: ActionTypes.FETCH_OPTIONS, payload: options });
+      dispatch({ type: ActionTypes.LOADED, payload: null });
+    });
   }, [dispatch]);
 
   useEffect(() => {
     fetchOptions();
   }, [fetchOptions]);
 
-  return { options: state.options, fetchOptions };
+  return { options: state.options, fetchOptions, isLoading: state.isLoading };
 };

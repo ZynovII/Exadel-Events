@@ -67,7 +67,7 @@ export const EventInfo: React.FC = () => {
       <MyBreadcrumbs />
       <Paper className={classes.mainFeaturedEvent}>
         {isLoading ? (
-          <Loader isLoading={isLoading} />
+          <Loader />
         ) : (
           <div>
             <Grid container direction="row" justifyContent="space-between">

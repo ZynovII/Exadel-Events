@@ -13,7 +13,7 @@ export class EventService {
 
   async createEvent(data: CreateEventDto): Promise<Event> {
     try {
-      const newEvent = new this._model(data);
+      const newEvent = new this._model(valuesInObjFromStringToDate(data));
       return await newEvent.save();
     } catch (err) {
       throw new BadRequestError(err.message);

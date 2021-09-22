@@ -16,6 +16,7 @@ import { DatePicker } from '@material-ui/pickers';
 import React from 'react';
 
 import { FieldForRender } from '../event-edit-form/fields.interface';
+import { FileRenderer } from '../event-edit-form/file-render.component';
 
 const useStayles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,7 @@ const useStayles = makeStyles((theme) => ({
   },
 }));
 
-export const EventEditField: React.FC<{
+export const Field: React.FC<{
   field: FieldForRender;
   edit?: boolean;
 }> = ({ field, edit }) => {
@@ -92,7 +93,14 @@ export const EventEditField: React.FC<{
       case 'file':
         return (
           <div>
-            <input id={field.name} {...field} />
+            <input
+              id={field.name}
+              type={field.type}
+              name={field.name}
+              onChange={field.onChange}
+              accept={field.accept}
+            />
+            <FileRenderer file={field.value} />
           </div>
         );
       default:

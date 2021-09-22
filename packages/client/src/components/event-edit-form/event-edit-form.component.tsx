@@ -1,16 +1,17 @@
 import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
 import React, { FormEvent, useMemo } from 'react';
+import { useRouteMatch } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { DateTime } from 'luxon';
 
 import { CreateEventDto } from '../../../../common types/dto/event/create-event.dto';
-import { EventEditField } from '../event-edit-field/event-edit-field.component';
+import { Field } from '../field/field.component';
 import { FieldForRender } from './fields.interface';
 import { useDropdownOptions } from '../../hooks/useDropdownOptions';
-import { Thumb } from './file-render.component';
 import { useEvents } from '../../hooks/useEvents.hook';
 import { CreateEvent } from '../../types/create-event.type';
+import { Loader } from '../loader/loader.component';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,21 +47,47 @@ const useStyles = makeStyles((theme) => ({
 export const EventEditForm: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const route = useRouteMatch<{ id: string }>('/event/:id');
+  const currentEventId =
+    route?.params.id === 'new-event' ? undefined : route?.params.id;
   const { options } = useDropdownOptions();
-  const { createEvent } = useEvents();
+  const { createEvent, updateEvent, eventById, isLoading } = useEvents({
+    id: currentEventId,
+  });
+
+  const initialValues: CreateEvent = useMemo(
+    () =>
+      eventById
+        ? {
+            title: eventById.title,
+            description: eventById.description,
+            startDate: eventById.startDate.toISOString(),
+            endDate: eventById.endDate.toISOString(),
+            type: eventById.type?._id,
+            isOnline: eventById.isOnline,
+            countries: eventById.countries.map((val) => val._id),
+            languages: eventById.languages.map((val) => val._id),
+            categories: eventById.categories.map((val) => val._id),
+            image: eventById.imagePath,
+          }
+        : {
+            title: '',
+            description: '',
+            startDate: DateTime.now().toISO(),
+            endDate: DateTime.now().plus({ days: 1 }).toISO(),
+            type: '',
+            isOnline: false,
+            countries: [],
+            languages: [],
+            categories: [],
+            image: null,
+          },
+    [eventById]
+  );
+
   const formik = useFormik<CreateEvent>({
-    initialValues: {
-      title: '',
-      description: '',
-      startDate: DateTime.now().toISO(),
-      endDate: DateTime.now().plus({ days: 1 }).toISO(),
-      type: '',
-      isOnline: false,
-      countries: [],
-      languages: [],
-      categories: [],
-      image: null,
-    },
+    initialValues,
+    enableReinitialize: true,
     onSubmit: (values) => {
       console.log(JSON.stringify(values, null, 2));
       const { image, ...value } = values;
@@ -71,7 +98,9 @@ export const EventEditForm: React.FC = () => {
         registrationFields: [],
         additionalData: {},
       };
-      createEvent(event, image);
+      currentEventId
+        ? updateEvent(currentEventId, event, image)
+        : createEvent(event, image);
     },
   });
 
@@ -122,7 +151,7 @@ export const EventEditForm: React.FC = () => {
         label: 'Type',
         value: formik.values.type,
         onChange: formik.handleChange,
-        options: options.types,
+        options: options?.types,
       },
       isOnline: {
         type: 'checkbox',
@@ -162,7 +191,7 @@ export const EventEditForm: React.FC = () => {
         type: 'file',
         name: 'image',
         label: 'Image',
-        value: undefined,
+        value: formik.values.image,
         accept: '.jpg, .jpeg, .png, .gif',
         onChange: (event: FormEvent<HTMLInputElement>) => {
           if (event.currentTarget.files?.length)
@@ -174,27 +203,35 @@ export const EventEditForm: React.FC = () => {
   );
   return (
     <Paper className={classes.root}>
-      <form onSubmit={formik.handleSubmit}>
-        <Typography variant="h5">{t('form_fields.basic_title')}</Typography>
-        <div className={classes.fields}>
-          {Object.values(fields).map((value) => (
-            <EventEditField edit field={value} key={value.name} />
-          ))}
-          <Thumb file={formik.values.image} />
-        </div>
-        <div className={classes.buttons}>
-          <Button variant="contained" className={classes.button}>
-            {t('form_actions.publish')}
-          </Button>
-          <Button variant="contained" color="primary" type="submit">
-            {t('form_actions.save')}
-          </Button>
-          <Button variant="contained">{t('form_actions.to_draft')}</Button>
-          <Button variant="contained" color="secondary">
-            {t('form_actions.cancel')}
-          </Button>
-        </div>
-      </form>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <form onSubmit={formik.handleSubmit}>
+          <Typography variant="h5">{t('form_fields.basic_title')}</Typography>
+          <div className={classes.fields}>
+            {Object.values(fields).map((value) => (
+              <Field edit field={value} key={value.name} />
+            ))}
+          </div>
+          <div className={classes.buttons}>
+            <Button variant="contained" className={classes.button}>
+              {t('form_actions.publish')}
+            </Button>
+            <Button variant="contained" color="primary" type="submit">
+              {t('form_actions.save')}
+            </Button>
+            <Button
+              variant="contained"
+              disabled={eventById?.status === 'Draft'}
+            >
+              {t('form_actions.to_draft')}
+            </Button>
+            <Button variant="contained" color="secondary">
+              {t('form_actions.cancel')}
+            </Button>
+          </div>
+        </form>
+      )}
     </Paper>
   );
 };

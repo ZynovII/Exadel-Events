@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Loader: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
+export const Loader: React.FC = () => {
   const classes = useStyles();
   return (
     <Grid

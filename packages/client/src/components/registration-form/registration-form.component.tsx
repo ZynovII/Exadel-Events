@@ -1,8 +1,14 @@
-import { Button, Grid, makeStyles } from '@material-ui/core';
+import {
+  Button,
+  Divider,
+  Grid,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import { useFormik } from 'formik';
 import React, { useMemo } from 'react';
 import { CreateApplicant } from '../../types/create-aplicant.type';
-import { EventEditField } from '../event-edit-field/event-edit-field.component';
+import { Field } from '../field/field.component';
 import { FieldForRender } from '../event-edit-form/fields.interface';
 
 const useStyles = makeStyles((theme) => ({
@@ -10,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  title: {
+    margin: '10px 50px',
+    color: theme.palette.grey[500],
   },
   container: {},
   item: {
@@ -100,27 +110,33 @@ export const RegistrationForm: React.FC = (props) => {
   );
 
   return (
-    <form onSubmit={formik.handleSubmit} className={classes.form}>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-around"
-        className={classes.container}
-      >
-        {Object.values(fields).map((field) => (
-          <Grid key={field.name} item md={6} className={classes.item}>
-            <EventEditField field={field} />
-          </Grid>
-        ))}
-      </Grid>
-      <Button
-        type="submit"
-        color="primary"
-        variant="contained"
-        className={classes.button}
-      >
-        Submit
-      </Button>
-    </form>
+    <div>
+      <Divider />
+      <Typography variant="h6" className={classes.title}>
+        Registrations
+      </Typography>
+      <form onSubmit={formik.handleSubmit} className={classes.form}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-around"
+          className={classes.container}
+        >
+          {Object.values(fields).map((field) => (
+            <Grid key={field.name} item md={6} className={classes.item}>
+              <Field field={field} />
+            </Grid>
+          ))}
+        </Grid>
+        <Button
+          type="submit"
+          color="primary"
+          variant="contained"
+          className={classes.button}
+        >
+          Submit
+        </Button>
+      </form>
+    </div>
   );
 };

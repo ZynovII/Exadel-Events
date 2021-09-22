@@ -11,7 +11,6 @@ import { Router } from './router/routes';
 import { Store } from './context/store.component';
 
 import './i18n/i18n';
-import { MyBreadcrumbs } from './components/breadcrumbs/breadcrumbs.coponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
