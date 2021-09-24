@@ -4,10 +4,10 @@ import { useFormik } from 'formik';
 import { useMemo } from 'react';
 
 import { FilterEventDto } from '../../../../common types/dto/event/filter-event.dto';
-import { EventService } from '../../http/API/event.service';
 import { FieldForRender } from '../event-edit-form/fields.interface';
 import { Field } from '../field/field.component';
 import { useDropdownOptions } from '../../hooks/useDropdownOptions';
+import { useEvents } from '../../hooks/useEvents.hook';
 
 const useStyles = makeStyles((theme) => ({
   searchContainer: {
@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 export const EventFilter = () => {
   const classes = useStyles();
   const { options } = useDropdownOptions();
+  const { fetchEvents } = useEvents();
 
   const formik = useFormik<FilterEventDto>({
     initialValues: {
@@ -42,7 +43,7 @@ export const EventFilter = () => {
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
-      EventService.getAllEvents(values).then((data) => console.log(data?.data));
+      fetchEvents(values);
     },
   });
 

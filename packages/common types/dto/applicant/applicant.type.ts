@@ -7,6 +7,7 @@ export type Applicant = {
   country: string;
   city: string;
   cvPath: string;
+  techStack: string;
   event: string;
   additionalData: any;
 };

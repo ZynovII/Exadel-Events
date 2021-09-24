@@ -1,5 +1,5 @@
 export function generateQueryString(obj: any): string {
   return Object.keys(obj)
-    .map((key) => `_${key}=${obj[key]}`)
+    .map((key) => `${key}=${obj[key]}`)
     .join('&');
 }

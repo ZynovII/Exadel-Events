@@ -27,12 +27,12 @@ export class EventService {
       result = await this._model
         .find({
           $text: { $search: search },
-          'countries.name': country,
-          isOnline,
-          'type.name': type,
+          // 'countries.name': country,
+          // isOnline,
+          // 'type.name': type,
         })
-        .limit(size * 1)
-        .skip((page - 1) * size)
+        // .limit(size * 1)
+        // .skip((page - 1) * size)
         .populate('type')
         .populate('countries', 'name')
         .populate('languages', 'name')
