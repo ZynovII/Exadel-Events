@@ -4,6 +4,7 @@ import Container from '@material-ui/core/Container';
 import { Grid } from '@material-ui/core';
 import { EventList } from '../components/event-list/event-list.component';
 import ApplicantTable from '../components/applicants-table/applicants-table.component';
+import { MyBreadcrumbs } from '../components/breadcrumbs/breadcrumbs.coponent';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -17,6 +18,7 @@ export const Applicants: FC = () => {
 
   return (
     <>
+      <MyBreadcrumbs />
       <Container className={classes.cardGrid}>
         <Grid container spacing={3}>
           <Grid item xs={3}>

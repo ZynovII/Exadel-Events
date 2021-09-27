@@ -10,20 +10,28 @@ interface IRoute {
   path: string;
   Component: React.FC<RouteProps>;
   exact: boolean;
+  breadcrumbName: string;
 }
 
 export const adminRoutes: IRoute[] = [
-  { path: '/', Component: Events, exact: true },
-  { path: '/event/:id', Component: EventInfo, exact: true },
+  { path: '/', Component: Events, exact: true, breadcrumbName: 'Home' },
+  {
+    path: '/event/:id',
+    Component: EventInfo,
+    exact: true,
+    breadcrumbName: 'Event',
+  },
   {
     path: '/applicants',
     Component: Applicants,
     exact: false,
+    breadcrumbName: 'Applicants',
   },
   {
     path: '/event/:id/edit',
     Component: EventEdit,
     exact: false,
+    breadcrumbName: 'Event Editing',
   },
 ];
 
