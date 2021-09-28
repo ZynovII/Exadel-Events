@@ -1,7 +1,7 @@
 import { DateTimeFormatOptions } from 'luxon';
 import i18n from '../i18n/i18n';
 
-export const valuesInobjFromDateToString = (obj: any): any => {
+export const valuesInObjFromDateToString = (obj: any): any => {
   for (const key in obj) {
     if (obj[key] instanceof Date) {
       obj[key] = obj[key].toISOString();
@@ -10,6 +10,19 @@ export const valuesInobjFromDateToString = (obj: any): any => {
   return obj;
 };
 
+export const valuesInArrayOfObjFromStringToDate = (arr: Array<any>): any => {
+  arr.forEach((obj) => {
+    for (const key in obj) {
+      if (
+        new Date(Date.parse(obj[key])) + '' !== 'Invalid Date' &&
+        isNaN(obj[key])
+      ) {
+        obj[key] = new Date(obj[key]);
+      }
+    }
+  });
+  return arr;
+};
 export const valuesInObjFromStringToDate = (obj: any): any => {
   for (const key in obj) {
     if (

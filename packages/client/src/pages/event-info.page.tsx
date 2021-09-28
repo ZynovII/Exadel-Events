@@ -16,6 +16,7 @@ import { useEvents } from '../hooks/useEvents.hook';
 import { dateToLocalString } from '../utils/dateFormater';
 import { Loader } from '../components/loader/loader.component';
 import { RegistrationForm } from '../components/registration-form/registration-form.component';
+import { useLoading } from '../hooks/useLoading.hook';
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedEvent: {
@@ -53,7 +54,8 @@ export const EventInfo: React.FC = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
-  const { eventById, isLoading } = useEvents({ id: params.id });
+  const { eventById } = useEvents({ id: params.id });
+  const { isLoading } = useLoading();
 
   const clickHandlerToEdit = () => {
     history.push(`/event/${eventById?._id}/edit/event-form`);

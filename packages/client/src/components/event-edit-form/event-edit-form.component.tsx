@@ -12,6 +12,7 @@ import { useDropdownOptions } from '../../hooks/useDropdownOptions';
 import { useEvents } from '../../hooks/useEvents.hook';
 import { CreateEvent } from '../../types/create-event.type';
 import { Loader } from '../loader/loader.component';
+import { useLoading } from '../../hooks/useLoading.hook';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,9 +52,10 @@ export const EventEditForm: React.FC = () => {
   const currentEventId =
     route?.params.id === 'new-event' ? undefined : route?.params.id;
   const { options } = useDropdownOptions();
-  const { createEvent, updateEvent, eventById, isLoading } = useEvents({
+  const { createEvent, updateEvent, eventById } = useEvents({
     id: currentEventId,
   });
+  const { isLoading } = useLoading();
 
   const initialValues: CreateEvent = useMemo(
     () =>

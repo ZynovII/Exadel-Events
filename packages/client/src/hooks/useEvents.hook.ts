@@ -1,14 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
+
 import { CreateEventDto } from '../../../common types/dto/event/create-event.dto';
 import { Event } from '../../../common types/dto/event/event.type';
 import { FilterEventDto } from '../../../common types/dto/event/filter-event.dto';
 import { ActionTypes } from '../context/action.types';
 import { EventService } from '../http/API/event.service';
-import { valuesInObjFromStringToDate } from '../utils/dateFormater';
+import {
+  valuesInArrayOfObjFromStringToDate,
+  valuesInObjFromStringToDate,
+} from '../utils/dateFormater';
+import { useLoading } from './useLoading.hook';
 import { useStore } from './useStore.hook';
 
 export const useEvents = (params?: { isFetch?: boolean; id?: string }) => {
   const { state, dispatch } = useStore();
+  const { setLoading } = useLoading();
   const [eventById, setEventById] = useState<Event | undefined>();
 
   const createEvent = async (createEventDto: CreateEventDto, image: any) => {
@@ -25,29 +31,30 @@ export const useEvents = (params?: { isFetch?: boolean; id?: string }) => {
 
   const fetchEvents = useCallback(
     async (params?: FilterEventDto) => {
-      dispatch({ type: ActionTypes.LOADING, payload: null });
-      const { data } = (await EventService.getAllEvents(params)) || {
-        data: [],
-      };
-      dispatch({
-        type: ActionTypes.FETCH_EVENTS,
-        payload: valuesInObjFromStringToDate(data),
+      const promise = new Promise((resolve, reject) => {
+        EventService.getAllEvents(params).then((data) => {
+          const events = data?.data || [];
+          resolve(
+            dispatch({
+              type: ActionTypes.FETCH_EVENTS,
+              payload: valuesInArrayOfObjFromStringToDate(events),
+            })
+          );
+        });
       });
-      dispatch({ type: ActionTypes.LOADED, payload: null });
+      setLoading(promise);
     },
     [dispatch]
   );
 
   const getEventById = useCallback(
     async (id) => {
-      dispatch({ type: ActionTypes.LOADING, payload: null });
       const result =
         state.events.find((event) => event._id === id) ||
         (await EventService.getEventById(id));
       setEventById(valuesInObjFromStringToDate(result));
-      dispatch({ type: ActionTypes.LOADED, payload: null });
     },
-    [state.events, dispatch]
+    [state.events]
   );
 
   useEffect(() => {
@@ -64,6 +71,5 @@ export const useEvents = (params?: { isFetch?: boolean; id?: string }) => {
     updateEvent,
     eventById,
     events: state.events,
-    isLoading: state.isLoading,
   };
 };

@@ -11,9 +11,7 @@ export const reducer = (state: IStore, action: IAction): IStore => {
       return { ...state, options: payload };
 
     case ActionTypes.LOADING:
-      return { ...state, isLoading: true };
-    case ActionTypes.LOADED:
-      return { ...state, isLoading: false };
+      return { ...state, isLoading: payload };
     default:
       return state;
   }
