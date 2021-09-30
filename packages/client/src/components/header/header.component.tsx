@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, Link } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher.component';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -31,6 +32,7 @@ export const Header = () => {
           Exadel Events
         </Typography>
         <nav>
+          <ThemeSwitcher />
           <Link
             variant="button"
             color="inherit"

@@ -7,6 +7,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { FC } from 'react';
+
 import { Event } from '../../../../common types/dto/event/event.type';
 import { stringSeparator } from '../../utils/stringSeparator';
 import { SERVER_URL } from '../../utils/constants';
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export const EventCard: FC<{ event: Event }> = ({ event }) => {
   const classes = useStyles();
+
   return (
     <Card className={classes.card}>
       <Link to={`/event/${event._id}`} className={classes.cardlink}>

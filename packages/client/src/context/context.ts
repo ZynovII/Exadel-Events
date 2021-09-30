@@ -12,6 +12,7 @@ export const initialState: IStore = {
   },
   isAuth: false,
   isLoading: true,
+  isDefaultTheme: true,
 };
 
 export const Context = createContext<IContext>({

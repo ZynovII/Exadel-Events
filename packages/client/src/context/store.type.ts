@@ -10,10 +10,11 @@ export interface IStore {
   options: FilterOptionsDto;
   isAuth: boolean;
   isLoading: boolean;
+  isDefaultTheme: boolean;
 }
 export interface IAction {
   type: ActionTypes;
-  payload: any;
+  payload?: any;
 }
 
 export interface IContext {
