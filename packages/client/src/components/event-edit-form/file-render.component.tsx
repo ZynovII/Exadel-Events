@@ -1,57 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SERVER_URL } from '../../utils/constants';
 
 interface Prop {
-  file: any;
+  input: any;
 }
 
-export class FileRenderer extends React.Component<Prop> {
-  state = {
-    loading: false,
-    thumb: undefined,
-  };
+export const FileRenderer = (props: Prop) => {
+  const [file, setFile] = useState<any>();
 
-  componentWillReceiveProps(nextProps: Prop) {
-    if (!nextProps.file) {
+  useEffect(() => {
+    if (!(props.input instanceof Blob)) {
+      setFile(SERVER_URL + props.input);
       return;
     }
+    let reader = new FileReader();
 
-    if (!(nextProps.file instanceof Blob)) {
-      this.setState({ thumb: SERVER_URL + nextProps.file });
-      return;
-    }
-    this.setState({ loading: true }, () => {
-      let reader = new FileReader();
+    reader.onloadend = () => {
+      setFile(reader.result);
+    };
 
-      reader.onloadend = () => {
-        this.setState({ loading: false, thumb: reader.result });
-      };
+    reader.readAsDataURL(props.input);
+  }, [props.input]);
 
-      reader.readAsDataURL(nextProps.file);
-    });
+  if (!file) {
+    return null;
   }
 
-  render() {
-    const { file } = this.props;
-    const { loading, thumb } = this.state;
-
-    if (!file) {
-      return null;
-    }
-
-    if (loading) {
-      return <p>loading...</p>;
-    }
-
-    return (
-      <div>
-        <img
-          src={thumb}
-          alt={file.name}
-          className="img-thumbnail mt-2"
-          height={200}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <img src={file} alt={file.name} height={200} />
+    </div>
+  );
+};

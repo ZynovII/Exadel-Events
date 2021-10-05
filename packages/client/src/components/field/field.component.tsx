@@ -100,7 +100,7 @@ export const Field: React.FC<{
               onChange={field.onChange}
               accept={field.accept}
             />
-            <FileRenderer file={field.value} />
+            <FileRenderer input={field.value} />
           </div>
         );
       default:
