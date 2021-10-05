@@ -52,7 +52,13 @@ export const Header = () => {
             {t('navigation.applicants')}
           </Link>
         </nav>
-        <Button color="inherit" variant="outlined" className={classes.link}>
+        <Button
+          component={RouterLink}
+          to="/signin"
+          color="inherit"
+          variant="outlined"
+          className={classes.link}
+        >
           {t('navigation.signin')}
         </Button>
       </Toolbar>

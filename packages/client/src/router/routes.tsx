@@ -5,6 +5,8 @@ import { Events } from '../pages/events.page';
 import { EventEdit } from '../pages/event-edit.page';
 import React from 'react';
 import { EventInfo } from '../pages/event-info.page';
+import { SignInPage } from '../pages/signin.page';
+import { SignUpPage } from '../pages/signup.page';
 
 interface IRoute {
   path: string;
@@ -15,6 +17,18 @@ interface IRoute {
 
 export const adminRoutes: IRoute[] = [
   { path: '/', Component: Events, exact: true, breadcrumbName: 'Home' },
+  {
+    path: '/signin',
+    Component: SignInPage,
+    exact: true,
+    breadcrumbName: 'Signin',
+  },
+  {
+    path: '/signup',
+    Component: SignUpPage,
+    exact: true,
+    breadcrumbName: 'Signup',
+  },
   {
     path: '/event/:id',
     Component: EventInfo,
