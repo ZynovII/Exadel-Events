@@ -14,7 +14,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useFormik } from 'formik';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { SignUpCredentials } from '../types/signup.type';
+import { SignUpCredentialsDto } from '../../../common types/dto/auth/sign-up.dto';
+import { useAuth } from '../hooks/useAuth.hook';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -42,15 +43,17 @@ const useStyles = makeStyles((theme) => ({
 
 export const SignUpPage: React.FC = () => {
   const classes = useStyles();
+  const { signUp } = useAuth();
 
-  const formik = useFormik<SignUpCredentials>({
+  const formik = useFormik<SignUpCredentialsDto>({
     initialValues: {
       username: '',
       email: '',
       password: '',
+      isAdmin: true,
     },
     onSubmit: (values) => {
-      console.log(values);
+      signUp(values);
     },
   });
 

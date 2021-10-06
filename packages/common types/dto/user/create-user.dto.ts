@@ -1,8 +1,6 @@
-import { UserRoles } from './user-role.enum';
-
 export interface CreateUserDto {
-  userName: string;
+  username: string;
   email: string;
-  additionalData: any;
-  role: UserRoles;
+  password: string;
+  isAdmin: boolean;
 }

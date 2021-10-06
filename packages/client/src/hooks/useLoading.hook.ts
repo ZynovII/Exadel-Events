@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { ActionTypes } from '../context/action.types';
+import { ActionTypes } from '../storage/context/action.types';
 import { useStore } from './useStore.hook';
 
 export const useLoading = () => {

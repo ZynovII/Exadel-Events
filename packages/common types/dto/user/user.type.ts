@@ -1,9 +1,8 @@
-import { UserRoles } from './user-role.enum';
-
 export type User = {
   _id: string;
-  userName: string;
+  username: string;
   email: string;
-  additionalData: any;
-  role: UserRoles;
+  password: string;
+  isAdmin: boolean;
+  isDefaultTheme: boolean;
 };

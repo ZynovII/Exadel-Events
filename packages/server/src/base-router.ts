@@ -10,8 +10,11 @@ import { formFieldRouter } from './form-fields/form-field.router';
 import { countryRouter } from './country/country.router';
 import { formOptionsRouter } from './form-options/form-options.router';
 import { uploadFilesRouters } from './upload-files/upload-files.router';
+import { authRouter } from './auth/auth.router';
 
 export const baseRouter = Router();
+
+baseRouter.use(authRouter);
 baseRouter.use(eventRouters);
 baseRouter.use(eventTypeRouter);
 baseRouter.use(eventCategoryRouter);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
-import { Store } from './context/store.component';
+import { Store } from './storage/context/store.component';
 
 import './i18n/i18n';
 import { Layout } from './components/layout/layout.component';

@@ -1,17 +1,24 @@
+import { SignInCredentialsDto } from '../../../common types/dto/auth/sign-in.dto';
+import { SignUpCredentialsDto } from '../../../common types/dto/auth/sign-up.dto';
 import { AuthService } from '../http/auth/auth.service';
-import { SignInCredentials } from '../types/signin.type';
-import { SignUpCredentials } from '../types/signup.type';
+import { LocalStorageService } from '../storage/localStorage/localStorage.service';
 import { useStore } from './useStore.hook';
 
 export const useAuth = () => {
   const { state, dispatch } = useStore();
 
-  const signIn = (creds: SignInCredentials) => {
-    AuthService.signIn(creds);
+  const signIn = (creds: SignInCredentialsDto) => {
+    const token = AuthService.signIn(creds);
+    console.log(token);
+
+    // LocalStorageService.setToken(token)
   };
 
-  const signUp = (creds: SignUpCredentials) => {
-    AuthService.signUp(creds);
+  const signUp = async (creds: SignUpCredentialsDto) => {
+    const token = await AuthService.signUp(creds);
+    console.log(token);
+
+    // LocalStorageService.setToken(token)
   };
 
   const signOut = () => {

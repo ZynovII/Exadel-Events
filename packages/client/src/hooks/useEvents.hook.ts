@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { CreateEventDto } from '../../../common types/dto/event/create-event.dto';
 import { Event } from '../../../common types/dto/event/event.type';
 import { FilterEventDto } from '../../../common types/dto/event/filter-event.dto';
-import { ActionTypes } from '../context/action.types';
+import { ActionTypes } from '../storage/context/action.types';
 import { EventService } from '../http/API/event.service';
 import {
   valuesInArrayOfObjFromStringToDate,

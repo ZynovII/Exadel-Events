@@ -1,11 +1,21 @@
-import { SignInCredentials } from '../../types/signin.type';
-import { SignUpCredentials } from '../../types/signup.type';
+import axios from 'axios';
+import { SignInCredentialsDto } from '../../../../common types/dto/auth/sign-in.dto';
+import { SignUpCredentialsDto } from '../../../../common types/dto/auth/sign-up.dto';
+import { errorHandler } from '../../error-handler/error-handler';
 
 export class AuthService {
-  static signIn(creds: SignInCredentials) {
-    console.log(creds);
+  static async signIn(creds: SignInCredentialsDto) {
+    try {
+      return (await axios.post(`/signin`, creds)).data;
+    } catch (err) {
+      errorHandler(err);
+    }
   }
-  static signUp(creds: SignUpCredentials) {
-    console.log(creds);
+  static async signUp(creds: SignUpCredentialsDto) {
+    try {
+      return (await axios.post(`/signup`, creds)).data;
+    } catch (err) {
+      errorHandler(err);
+    }
   }
 }

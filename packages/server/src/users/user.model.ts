@@ -4,14 +4,9 @@ import { User } from '../../../common types/dto/user/user.type';
 const schemaUser = new Schema({
   userName: { type: String, required: true },
   email: { type: String, required: true },
-  role: { type: String, required: true },
-  additionalData: Schema.Types.Mixed,
-  applicants: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Applicants',
-    },
-  ],
+  isAdmin: Boolean,
+  password: String,
+  isDefaultTheme: Boolean,
 });
 
 export const UserModel = model<User>('User', schemaUser);
