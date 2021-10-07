@@ -3,10 +3,12 @@ import { NotFoundError } from '../error-handler/NotFoundError';
 import { DELETED } from '../utils/constants';
 import { CreateUserDto } from '../../../common types/dto/user/create-user.dto';
 import { User } from '../../../common types/dto/user/user.type';
-import { UserModel } from './user.model';
+import { UserDocument, UserModel } from './user.model';
+import { SignInCredentialsDto } from '../../../common types/dto/auth/sign-in.dto';
+import { UnauthorizedError } from '../error-handler/UnauthorizedError';
 
 export class UserService {
-  constructor(private readonly _model: Model<User>) {}
+  constructor(private readonly _model: Model<UserDocument>) {}
 
   async createUser(data: CreateUserDto): Promise<User> {
     const newUser = new this._model(data);
@@ -36,6 +38,14 @@ export class UserService {
       throw new NotFoundError('User');
     }
     return result;
+  }
+
+  async validatePassword(creds: SignInCredentialsDto): Promise<UserDocument> {
+    const user = await this._model.findOne({ email: creds.email });
+    if (!user) throw new NotFoundError('User');
+    const isValid = user.comparePassword(creds.password);
+    if (!isValid) throw new UnauthorizedError('Invalid email or password');
+    return user;
   }
 }
 

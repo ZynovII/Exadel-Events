@@ -5,4 +5,7 @@ export class LocalStorageService {
   static getToken(): string | null {
     return localStorage.getItem('token');
   }
+  static removeToken(): void {
+    localStorage.removeItem('token');
+  }
 }

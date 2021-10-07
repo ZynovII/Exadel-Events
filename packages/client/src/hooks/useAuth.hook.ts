@@ -7,9 +7,9 @@ import { useStore } from './useStore.hook';
 export const useAuth = () => {
   const { state, dispatch } = useStore();
 
-  const signIn = (creds: SignInCredentialsDto) => {
-    const token = AuthService.signIn(creds);
-    console.log(token);
+  const signIn = async (creds: SignInCredentialsDto) => {
+    const token = await AuthService.signIn(creds);
+    console.log('responce', token);
 
     // LocalStorageService.setToken(token)
   };

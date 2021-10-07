@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sidebarAboutBox: {
     padding: theme.spacing(2),
-    backgroundColor: theme.palette.grey[200],
+    backgroundColor: theme.palette.grey[400],
   },
   sidebarSection: {
     marginTop: theme.spacing(3),
