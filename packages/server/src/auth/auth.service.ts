@@ -1,12 +1,15 @@
 import jwt from 'jsonwebtoken';
+import { SignInResponseDto } from '../../../common types/dto/auth/sign-in-response.dto';
 
 import { SignInCredentialsDto } from '../../../common types/dto/auth/sign-in.dto';
+import { SignUpResponseDto } from '../../../common types/dto/auth/sign-up-response.dto';
 import { SignUpCredentialsDto } from '../../../common types/dto/auth/sign-up.dto';
 import userService, { UserService } from '../users/user.service';
 
 export class AuthService {
   constructor(private userService: UserService) {}
-  async signIn(creds: SignInCredentialsDto) {
+
+  async signIn(creds: SignInCredentialsDto): Promise<SignInResponseDto> {
     const _user = await userService.validatePassword(creds);
     const { username, _id, isAdmin, isDefaultTheme } = _user;
     const user = {
@@ -18,12 +21,18 @@ export class AuthService {
     const token = jwt.sign(user, process.env.JWT_SECRET_OR_KEY, {
       expiresIn: process.env.JWT_TOKEN_EXPIRATION,
     });
-    return { creds, token };
+    return { user, token };
   }
-  signUp(creds: SignUpCredentialsDto) {
-    return { creds, token: 'token' };
-    //this.userService.createUser(creds);
+
+  async signUp(creds: SignUpCredentialsDto): Promise<SignUpResponseDto> {
+    const _user = await this.userService.createUser(creds);
+    const { password, ...user } = _user;
+    const token = jwt.sign(user, process.env.JWT_SECRET_OR_KEY, {
+      expiresIn: process.env.JWT_TOKEN_EXPIRATION,
+    });
+    return { user, token };
   }
+
   signOut() {
     return 'sign out';
   }

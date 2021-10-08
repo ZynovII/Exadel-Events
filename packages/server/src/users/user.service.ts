@@ -10,7 +10,7 @@ import { UnauthorizedError } from '../error-handler/UnauthorizedError';
 export class UserService {
   constructor(private readonly _model: Model<UserDocument>) {}
 
-  async createUser(data: CreateUserDto): Promise<User> {
+  async createUser(data: CreateUserDto): Promise<UserDocument> {
     const newUser = new this._model(data);
     return newUser.save();
   }
@@ -19,7 +19,7 @@ export class UserService {
     return this._model.find();
   }
 
-  async getUserById(id: string): Promise<User> {
+  async getUserById(id: string): Promise<UserDocument> {
     const result = await this._model.findOne({ id });
     if (result === null) {
       throw new NotFoundError('User');
@@ -32,7 +32,7 @@ export class UserService {
     return DELETED;
   }
 
-  async updateUser(id: string, payload: CreateUserDto): Promise<User> {
+  async updateUser(id: string, payload: CreateUserDto): Promise<UserDocument> {
     const result = await this._model.findByIdAndUpdate(id, payload);
     if (result === null) {
       throw new NotFoundError('User');
