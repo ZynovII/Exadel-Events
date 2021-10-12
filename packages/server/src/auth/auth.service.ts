@@ -6,6 +6,7 @@ import { SignUpResponseDto } from '../../../common types/dto/auth/sign-up-respon
 import { SignUpCredentialsDto } from '../../../common types/dto/auth/sign-up.dto';
 import userService, { UserService } from '../users/user.service';
 
+const secret = process.env.JWT_SECRET_OR_KEY || 'secret';
 export class AuthService {
   constructor(private userService: UserService) {}
 
@@ -18,7 +19,7 @@ export class AuthService {
       isDefaultTheme,
       _id,
     };
-    const token = jwt.sign(user, process.env.JWT_SECRET_OR_KEY, {
+    const token = jwt.sign(user, secret, {
       expiresIn: process.env.JWT_TOKEN_EXPIRATION,
     });
     return { user, token };
@@ -26,14 +27,16 @@ export class AuthService {
 
   async signUp(creds: SignUpCredentialsDto): Promise<SignUpResponseDto> {
     const _user = await this.userService.createUser(creds);
-    const { password, ...user } = _user;
-    const token = jwt.sign(user, process.env.JWT_SECRET_OR_KEY, {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { _id, isAdmin, isDefaultTheme, username } = _user;
+    const user = { _id, isAdmin, isDefaultTheme, username };
+    const token = jwt.sign(user, secret, {
       expiresIn: process.env.JWT_TOKEN_EXPIRATION,
     });
     return { user, token };
   }
 
-  signOut() {
+  signOut(): string {
     return 'sign out';
   }
 }

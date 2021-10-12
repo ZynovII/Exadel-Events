@@ -13,7 +13,9 @@ import {
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useFormik } from 'formik';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Redirect } from 'react-router-dom';
+import * as Yup from 'yup';
+
 import { SignInCredentialsDto } from '../../../common types/dto/auth/sign-in.dto';
 import { useAuth } from '../hooks/useAuth.hook';
 
@@ -41,18 +43,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const SigninSchema = Yup.object().shape({
+  password: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
+});
+
 export const SignInPage: React.FC = () => {
   const classes = useStyles();
-  const { signIn } = useAuth();
+  const { signIn, isAuth } = useAuth();
   const formik = useFormik<SignInCredentialsDto>({
     initialValues: {
       email: '',
       password: '',
     },
+    validationSchema: SigninSchema,
     onSubmit: (values) => {
       signIn(values);
     },
   });
+  if (isAuth) return <Redirect to="/" />;
   return (
     <Container maxWidth="xs" className={classes.cardGrid}>
       <div className={classes.paper}>
@@ -74,6 +86,8 @@ export const SignInPage: React.FC = () => {
             fullWidth
             value={formik.values.email}
             onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
             id="email"
             label="Email Address"
             name="email"
@@ -87,6 +101,8 @@ export const SignInPage: React.FC = () => {
             fullWidth
             value={formik.values.password}
             onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
             name="password"
             label="Password"
             type="password"

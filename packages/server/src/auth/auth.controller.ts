@@ -8,7 +8,7 @@ export class AuthController {
 
   signIn = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
     try {
-      const result = this.authService.signIn(req.body);
+      const result = await this.authService.signIn(req.body);
       return res.send(result);
     } catch (err) {
       log.error(err);
@@ -17,7 +17,7 @@ export class AuthController {
   };
   signUp = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
     try {
-      const result = this.authService.signUp(req.body);
+      const result = await this.authService.signUp(req.body);
       return res.send(result);
     } catch (err) {
       log.error(err);

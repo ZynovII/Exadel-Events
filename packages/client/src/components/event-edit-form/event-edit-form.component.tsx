@@ -159,7 +159,7 @@ export const EventEditForm: React.FC = () => {
         type: 'checkbox',
         name: 'isOnline',
         label: 'Is Online',
-        value: formik.values.countries,
+        value: formik.values.isOnline,
         onChange: formik.handleChange,
       },
       country: {

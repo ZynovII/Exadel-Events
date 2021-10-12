@@ -1,28 +1,44 @@
+import { useHistory } from 'react-router';
 import { SignInCredentialsDto } from '../../../common types/dto/auth/sign-in.dto';
 import { SignUpCredentialsDto } from '../../../common types/dto/auth/sign-up.dto';
 import { AuthService } from '../http/auth/auth.service';
+import { ActionTypes } from '../storage/context/action.types';
 import { LocalStorageService } from '../storage/localStorage/localStorage.service';
+import { useMyTheme } from './useMyTheme.hook';
 import { useStore } from './useStore.hook';
 
 export const useAuth = () => {
   const { state, dispatch } = useStore();
+  const { setTheme } = useMyTheme();
+  const history = useHistory();
 
   const signIn = async (creds: SignInCredentialsDto) => {
-    const token = await AuthService.signIn(creds);
-    console.log('responce', token);
-
-    // LocalStorageService.setToken(token)
+    const data = await AuthService.signIn(creds);
+    if (data) {
+      const user = { username: data.user.username, isAdmin: data.user.isAdmin };
+      dispatch({ type: ActionTypes.SET_USER, payload: user });
+      data.user.isDefaultTheme !== undefined &&
+        setTheme(data.user.isDefaultTheme);
+      LocalStorageService.setToken(data.token);
+      history.push('/');
+    }
   };
 
   const signUp = async (creds: SignUpCredentialsDto) => {
-    const token = await AuthService.signUp(creds);
-    console.log(token);
-
-    // LocalStorageService.setToken(token)
+    const data = await AuthService.signUp(creds);
+    if (data) {
+      const user = { username: data.user.username, isAdmin: data.user.isAdmin };
+      dispatch({ type: ActionTypes.SET_USER, payload: user });
+      setTheme(data.user.isDefaultTheme);
+      LocalStorageService.setToken(data.token);
+      history.push('/');
+    }
   };
 
   const signOut = () => {
-    console.log('Sign Out');
+    dispatch({ type: ActionTypes.REMOVE_USER });
+    LocalStorageService.removeToken();
+    history.push('/');
   };
 
   return {

@@ -6,13 +6,19 @@ import { User } from '../../../common types/dto/user/user.type';
 import { UserDocument, UserModel } from './user.model';
 import { SignInCredentialsDto } from '../../../common types/dto/auth/sign-in.dto';
 import { UnauthorizedError } from '../error-handler/UnauthorizedError';
+import { ForbiddenError } from '../error-handler/ForbiddenError';
 
 export class UserService {
   constructor(private readonly _model: Model<UserDocument>) {}
 
   async createUser(data: CreateUserDto): Promise<UserDocument> {
-    const newUser = new this._model(data);
-    return newUser.save();
+    const user = await this._model.findOne({ email: data.email });
+    if (user) {
+      throw new ForbiddenError('User already exist');
+    } else {
+      const newUser = new this._model(data);
+      return newUser.save();
+    }
   }
 
   async getAllUsers(): Promise<User[]> {
@@ -21,10 +27,11 @@ export class UserService {
 
   async getUserById(id: string): Promise<UserDocument> {
     const result = await this._model.findOne({ id });
-    if (result === null) {
+    if (result) {
+      return result;
+    } else {
       throw new NotFoundError('User');
     }
-    return result;
   }
 
   async deleteUser(id: string): Promise<string> {
@@ -43,7 +50,7 @@ export class UserService {
   async validatePassword(creds: SignInCredentialsDto): Promise<UserDocument> {
     const user = await this._model.findOne({ email: creds.email });
     if (!user) throw new NotFoundError('User');
-    const isValid = user.comparePassword(creds.password);
+    const isValid = await user.comparePassword(creds.password);
     if (!isValid) throw new UnauthorizedError('Invalid email or password');
     return user;
   }

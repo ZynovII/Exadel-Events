@@ -85,7 +85,13 @@ export const Field: React.FC<{
           <FormControlLabel
             id={field.name}
             {...field}
-            control={<Checkbox color="primary" />}
+            control={
+              <Checkbox
+                checked={field.value}
+                onChange={field.onChange}
+                color="primary"
+              />
+            }
             labelPlacement="end"
             className={classes.formControl}
           />

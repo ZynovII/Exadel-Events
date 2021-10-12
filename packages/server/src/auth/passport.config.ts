@@ -3,9 +3,10 @@ import { PassportStatic } from 'passport';
 
 import userService from '../users/user.service';
 
+const secret = process.env.JWT_SECRET_OR_KEY || 'secret';
 const options = {
   jwtFromRequest: ExtractJwt.fromHeader('x-access-token'),
-  secretOrKey: process.env.JWT_SECRET_OR_KEY,
+  secretOrKey: secret,
   algorithms: ['RS256'],
 };
 

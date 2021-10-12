@@ -3,4 +3,5 @@ export interface CreateUserDto {
   email: string;
   password: string;
   isAdmin: boolean;
+  isDefaultTheme: boolean;
 }

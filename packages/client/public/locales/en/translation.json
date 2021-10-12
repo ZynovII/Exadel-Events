@@ -2,6 +2,7 @@
   "navigation": {
     "signup": "SignUp",
     "signin": "SignIn",
+    "signout": "Sign Out",
     "events": "Events",
     "applicants": "Applicants",
     "event_edit": "Event editting",

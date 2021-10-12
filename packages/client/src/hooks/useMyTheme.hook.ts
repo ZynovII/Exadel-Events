@@ -6,5 +6,8 @@ export const useMyTheme = () => {
   const toggleTheme = () => {
     dispatch({ type: ActionTypes.TOGGLE_THEME });
   };
-  return { isDefaultTheme: state.isDefaultTheme, toggleTheme };
+  const setTheme = (value: boolean) => {
+    dispatch({ type: ActionTypes.SET_THEME, payload: value });
+  };
+  return { isDefaultTheme: state.isDefaultTheme, toggleTheme, setTheme };
 };

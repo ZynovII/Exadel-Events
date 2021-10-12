@@ -1,7 +1,7 @@
 import { CustomError } from './CustomError';
 
-export class UnauthorizedError extends CustomError {
+export class ForbiddenError extends CustomError {
   constructor(message: string) {
-    super(message, 401);
+    super(message, 403);
   }
 }

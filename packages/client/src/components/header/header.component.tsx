@@ -6,6 +6,7 @@ import { Button, Link } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher.component';
+import { useAuth } from '../../hooks/useAuth.hook';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const Header = () => {
   const classes = useStyles();
+  const { isAuth, signOut } = useAuth();
   const { t } = useTranslation();
   return (
     <AppBar position="static" elevation={0} className={classes.appBar}>
@@ -52,15 +54,26 @@ export const Header = () => {
             {t('navigation.applicants')}
           </Link>
         </nav>
-        <Button
-          component={RouterLink}
-          to="/signin"
-          color="inherit"
-          variant="outlined"
-          className={classes.link}
-        >
-          {t('navigation.signin')}
-        </Button>
+        {!isAuth ? (
+          <Button
+            component={RouterLink}
+            to="/signin"
+            color="inherit"
+            variant="outlined"
+            className={classes.link}
+          >
+            {t('navigation.signin')}
+          </Button>
+        ) : (
+          <Button
+            onClick={signOut}
+            color="inherit"
+            variant="outlined"
+            className={classes.link}
+          >
+            {t('navigation.signout')}
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

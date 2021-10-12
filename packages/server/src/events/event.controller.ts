@@ -66,6 +66,7 @@ export class EventController {
   ): Promise<Response | void> => {
     try {
       const events = await this._service.updateEvent(req.params.eventId, req.body);
+      log.info(req);
       return res.status(200).send(events);
     } catch (err) {
       log.error(err);
