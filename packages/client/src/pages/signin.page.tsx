@@ -1,18 +1,17 @@
 import {
   Avatar,
   Button,
-  Checkbox,
   Container,
-  FormControlLabel,
   Grid,
   Link,
   makeStyles,
   TextField,
   Typography,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import * as Yup from 'yup';
 
@@ -52,6 +51,7 @@ const SigninSchema = Yup.object().shape({
 });
 
 export const SignInPage: React.FC = () => {
+  const [error, setError] = useState<string | undefined>();
   const classes = useStyles();
   const { signIn, isAuth } = useAuth();
   const formik = useFormik<SignInCredentialsDto>({
@@ -61,7 +61,7 @@ export const SignInPage: React.FC = () => {
     },
     validationSchema: SigninSchema,
     onSubmit: (values) => {
-      signIn(values);
+      signIn(values).then((err) => setError(err));
     },
   });
   if (isAuth) return <Redirect to="/" />;
@@ -109,10 +109,7 @@ export const SignInPage: React.FC = () => {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+          {error && <Alert severity="error">{error}</Alert>}
           <Button
             type="submit"
             fullWidth

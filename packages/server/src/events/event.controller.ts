@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import eventService, { EventService } from './event.service';
 import { log } from '../logger/logger';
+import { ForbiddenError } from '../error-handler/ForbiddenError';
 
 export class EventController {
   constructor(private readonly _service: EventService) {}
@@ -11,6 +12,7 @@ export class EventController {
     next: NextFunction,
   ): Promise<Response | void> => {
     try {
+      if (!req.user?.isAdmin) throw new ForbiddenError('Only admins can edit events');
       const body = req.body;
       const event = await this._service.createEvent(body);
       return res.status(201).send(event);
@@ -51,6 +53,7 @@ export class EventController {
     next: NextFunction,
   ): Promise<Response | void> => {
     try {
+      if (!req.user?.isAdmin) throw new ForbiddenError('Only admins can edit events');
       const events = await this._service.deleteEvent(req.params.eventId);
       return res.status(200).send(events);
     } catch (err) {
@@ -65,8 +68,8 @@ export class EventController {
     next: NextFunction,
   ): Promise<Response | void> => {
     try {
+      if (!req.user?.isAdmin) throw new ForbiddenError('Only admins can edit events');
       const events = await this._service.updateEvent(req.params.eventId, req.body);
-      log.info(req);
       return res.status(200).send(events);
     } catch (err) {
       log.error(err);

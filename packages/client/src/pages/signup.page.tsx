@@ -8,9 +8,10 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink, Redirect } from 'react-router-dom';
 import * as Yup from 'yup';
 
@@ -55,6 +56,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 export const SignUpPage: React.FC = () => {
+  const [error, setError] = useState<string | undefined>();
   const classes = useStyles();
   const { signUp, isAuth } = useAuth();
   const { isDefaultTheme } = useMyTheme();
@@ -69,7 +71,7 @@ export const SignUpPage: React.FC = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      signUp(values);
+      signUp(values).then((err) => setError(err));
     },
   });
 
@@ -133,6 +135,7 @@ export const SignUpPage: React.FC = () => {
             id="password"
             autoComplete="current-password"
           />
+          {error && <Alert severity="error">{error}</Alert>}
           <Button
             type="submit"
             fullWidth

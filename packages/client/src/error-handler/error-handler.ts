@@ -1,7 +1,6 @@
-export class CustomError extends Error {
+export class CustomError {
+  message: string;
   constructor(message?: string) {
-    super();
-
     this.message = message || 'Something went wrong... Please try again';
   }
 }

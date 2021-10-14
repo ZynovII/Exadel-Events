@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router';
 import { SignInCredentialsDto } from '../../../common types/dto/auth/sign-in.dto';
 import { SignUpCredentialsDto } from '../../../common types/dto/auth/sign-up.dto';
+import { HTTPError } from '../error-handler/error-handler';
 import { AuthService } from '../http/auth/auth.service';
 import { ActionTypes } from '../storage/context/action.types';
 import { LocalStorageService } from '../storage/localStorage/localStorage.service';
@@ -14,24 +15,29 @@ export const useAuth = () => {
 
   const signIn = async (creds: SignInCredentialsDto) => {
     const data = await AuthService.signIn(creds);
-    if (data) {
+
+    if (!(data instanceof HTTPError)) {
       const user = { username: data.user.username, isAdmin: data.user.isAdmin };
       dispatch({ type: ActionTypes.SET_USER, payload: user });
       data.user.isDefaultTheme !== undefined &&
         setTheme(data.user.isDefaultTheme);
       LocalStorageService.setToken(data.token);
       history.push('/');
+    } else {
+      return data.message;
     }
   };
 
   const signUp = async (creds: SignUpCredentialsDto) => {
     const data = await AuthService.signUp(creds);
-    if (data) {
+    if (!(data instanceof HTTPError)) {
       const user = { username: data.user.username, isAdmin: data.user.isAdmin };
       dispatch({ type: ActionTypes.SET_USER, payload: user });
       setTheme(data.user.isDefaultTheme);
       LocalStorageService.setToken(data.token);
       history.push('/');
+    } else {
+      return data.message;
     }
   };
 

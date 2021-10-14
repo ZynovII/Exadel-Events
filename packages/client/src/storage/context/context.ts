@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { LocalStorageService } from '../localStorage/localStorage.service';
 import { IContext, IStore } from './store.type';
 
 export const initialState: IStore = {
@@ -10,9 +11,9 @@ export const initialState: IStore = {
     countries: [],
     categories: [],
   },
-  isAuth: false,
+  isAuth: LocalStorageService.isTokenAlive(),
   isLoading: true,
-  isDefaultTheme: true,
+  isDefaultTheme: LocalStorageService.getIsDefaultTheme(),
   user: null,
 };
 

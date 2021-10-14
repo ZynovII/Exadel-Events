@@ -22,12 +22,12 @@ export class AuthService {
     const token = jwt.sign(user, secret, {
       expiresIn: process.env.JWT_TOKEN_EXPIRATION,
     });
+
     return { user, token };
   }
 
   async signUp(creds: SignUpCredentialsDto): Promise<SignUpResponseDto> {
     const _user = await this.userService.createUser(creds);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { _id, isAdmin, isDefaultTheme, username } = _user;
     const user = { _id, isAdmin, isDefaultTheme, username };
     const token = jwt.sign(user, secret, {
